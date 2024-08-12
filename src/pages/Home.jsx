@@ -1,3 +1,5 @@
+import Sidebar from "../ui/Sidebar"
+
 function Home() {
     return (
         <div>

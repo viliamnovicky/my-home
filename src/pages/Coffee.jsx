@@ -1,9 +1,5 @@
 import styled from "styled-components";
-import Sidebar from "../ui/Sidebar";
-
 import Wildkaffee from "../../public/img/wildkaffee.png";
-
-import brazil from "../../public/icons/maps/brazil.svg";
 
 const coffeInfo = {
   roasteryName: "wildkaffe",
@@ -29,35 +25,29 @@ const coffeInfo = {
 
 const StyledCoffee = styled.div`
   width: 100%;
-  height: calc(100vh - 13rem);
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const CoffeInfo = styled.div`
-  width: 100%;
-  height: auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+ 
   gap: 1rem;
 `;
 
 const CountryShape = styled.img`
   width: 20rem;
-  height: 100%;
 `;
 
 const CoffeeImage = styled.img`
-  height: 100%;
+  height: 20%;
 `;
 
 function Coffee() {
   return (
-    <>
-      <Sidebar></Sidebar>
       <StyledCoffee>
-        <CoffeInfo>
+        {/* <CoffeInfo>
             <h1>{coffeInfo.roasteryName}</h1>
             <h1>{coffeInfo.coffeeName}</h1>
             <h1>{coffeInfo.coffeeType}</h1>
@@ -65,9 +55,8 @@ function Coffee() {
             {coffeInfo.origin.length > 0 && coffeInfo.origin.map(country => 
           <CountryShape key={`shape-${country}`} src={`/icons/maps/${country.toLowerCase()}.svg`}></CountryShape>)}
         </CoffeInfo>
-        <CoffeeImage src={coffeInfo.image} />
+        <CoffeeImage src={coffeInfo.image} /> */}
       </StyledCoffee>
-    </>
   );
 }
 

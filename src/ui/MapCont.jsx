@@ -8,6 +8,7 @@ const StyledMapCont = styled.div`
   height: 100%;
   width: 100%;
   transition: all 0.2s;
+  border-radius: 2rem;
 
   .marker {
     background-image: url("https://docs.mapbox.com/help/demos/custom-markers-gl-js/mapbox-icon.png");

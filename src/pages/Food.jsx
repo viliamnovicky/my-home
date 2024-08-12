@@ -54,23 +54,9 @@ const StyledNavLink = styled(NavLink)`
 
 function Food() {
   return (
-    <>
-      <Sidebar>
-        <NavList>
-          <li>
-            <StyledNavLink to="recepes">
-              <span>recepes</span>
-            </StyledNavLink>
-          </li>
-          <li>
-            <StyledNavLink to="food">
-              <span>food</span>
-            </StyledNavLink>
-          </li>
-        </NavList>
-      </Sidebar>
-      <StyledFood></StyledFood>
-    </>
+      <StyledFood>
+        
+      </StyledFood>
   );
 }
 

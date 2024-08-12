@@ -26,13 +26,6 @@ function Map() {
     const [clickCoordinates, setClickCoordinates] = useState(null);
     console.log(clickCoordinates)
     return (
-        <>
-      <Sidebar>
-        {clickCoordinates && <>
-          <p>{clickCoordinates[0]}</p>
-          <p>{clickCoordinates[1]}</p>
-        </>}
-      </Sidebar>
       <StyledMap>
         <Buttons>
             <Button size="square" onClick={() => zoom < 22 ? setZoom(zoom + 1) : zoom}><FaPlus /></Button>
@@ -40,7 +33,6 @@ function Map() {
         </Buttons>
         <MapCont zoom={zoom} setClickCoordinates={setClickCoordinates}></MapCont>
       </StyledMap>
-    </>
     )
 }
 

@@ -3,6 +3,7 @@ import Header from "./Header";
 import Navbar from "./Navbar";
 import styled, { css } from "styled-components";
 import Footer from "./Footer";
+import Sidebar from "./Sidebar";
 
 const colors = {
     home: css`
@@ -33,11 +34,32 @@ ${props=>colors[props.color]}
 
 const Main = styled.div`
     display: grid;
-    width: 100%;
-    height: 100%;
-    grid-template-columns: 1fr 3fr;
+    width: 100vw;
+    margin:auto;
+    height: calc(100% - 13rem);
+    grid-template-columns: auto 1fr;
     position: relative;
+    padding: 1rem;
+    overflow: hidden;
+    transition: all 0.2s;
 `;
+
+const Checkbox = styled.input`
+  position: absolute;
+  // visibility: hidden;
+`;
+
+const SidebarButton = styled.label`
+  width :5rem;
+  height: 5rem;
+  position: absolute;
+  background: var(--grey-900) !important;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  border-radius: 50%;
+  cursor: pointer;
+`
 
 function AppLayout() {
     const location = useLocation().pathname.split('/')[1]
@@ -48,7 +70,11 @@ function AppLayout() {
       <Header color={location}>
         <Navbar />
       </Header>
+      
       <Main>
+      <Checkbox type="checkbox" id="sidebar-toggle" />
+        <SidebarButton for="sidebar-toggle">sdsds</SidebarButton>
+        <Sidebar color={location} />
         <Outlet />
       </Main>
       <Footer color={location}/>
