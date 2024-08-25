@@ -1,9 +1,11 @@
 import styled from "styled-components"
-import Sidebar from "../ui/Sidebar"
 import Button from "../ui/Button"
 import { FaMinus, FaPlus } from "react-icons/fa"
 import MapCont from "../ui/MapCont"
 import { useState } from "react"
+import { useHillsData } from "../features/useHillsData"
+import NewHillForm from "../features/NewHillForm"
+
 
 const StyledMap = styled.div`
     position: relative;
@@ -22,18 +24,23 @@ const Buttons = styled.div`
 `
 
 function Map() {
+
+  const {isLoadingHills, hills, errorHills} = useHillsData()
+  console.log(hills)
+
     const [zoom, setZoom] = useState(9);
     const [clickCoordinates, setClickCoordinates] = useState(null);
-    console.log(clickCoordinates)
-    return (
+
+    if(hills){ return (
       <StyledMap>
+        <NewHillForm/>
         <Buttons>
             <Button size="square" onClick={() => zoom < 22 ? setZoom(zoom + 1) : zoom}><FaPlus /></Button>
             <Button size="square" onClick={() => zoom > 1 ? setZoom(zoom - 1) : zoom}><FaMinus /></Button>
         </Buttons>
-        <MapCont zoom={zoom} setClickCoordinates={setClickCoordinates}></MapCont>
+        <MapCont zoom={zoom} setClickCoordinates={setClickCoordinates} hills={hills}></MapCont>
       </StyledMap>
-    )
+    )}
 }
 
 export default Map
