@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 export const Form = styled.form`
   background: transparent;
   padding: 2rem;
+  width: 100%;
 
   .inactive {
     cursor: not-allowed;
@@ -72,7 +73,7 @@ export const Text = styled.textarea`
   outline: none;
   border: 1px solid var(--color-grey-100);
   outline: 5px solid var(--color-primary-50);
-  background: var(--gray-50);
+  background: rgba(255, 255, 255, 0.8);
   font-size: 1.6rem;
   width: 100%;
 `;
@@ -83,7 +84,6 @@ export const Label = styled.label`
   font-weight: 500;
   position: relative;
   transition: all 0.2s;
-  top: 0.5rem;
 `;
 
 export const Select = styled.select`
@@ -112,9 +112,8 @@ export const Input = styled.input`
   outline: none;
   border: 1px solid var(--color-grey-100);
   outline: 5px solid var(--color-primary-50);
-  background: var(--gray-50);
+  background: rgba(255, 255, 255, 0.8);
   font-size: 1.6rem;
-  width: 100%;
   width: 100%;
 
   &:disabled {

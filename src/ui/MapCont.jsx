@@ -8,6 +8,9 @@ import { useHillsData } from "../features/useHillsData";
 const StyledMapCont = styled.div`
   height: 100%;
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   transition: all 0.2s;
   border-radius: 2rem;
 
@@ -126,7 +129,7 @@ const geojson = {
   ],
 };
 
-function MapCont({ zoom, setClickCoordinates, hills }) {
+function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm }) {
 
   mapboxgl.accessToken =
     "pk.eyJ1IjoidmlsaWFtbm92aWNreSIsImEiOiJjbGVlazBvcWYwaHVjM3ZtajZveGoxM244In0.hnpQA34MhL9qxzfDOcUd2g";
@@ -152,25 +155,31 @@ function MapCont({ zoom, setClickCoordinates, hills }) {
 
     map.current.on("click", (e) => {
       const coords = e.lngLat;
-      setClickCoordinates([coords.lng, coords.lat]);
-
+    
       // Remove the previous marker if it exists
       if (markerRef.current) {
         markerRef.current.remove();
       }
 
-      // Create a DOM element for the custom marker
-      const markerContainer = document.createElement("div");
-      const root = createRoot(markerContainer);
-      root.render(<FaMapMarkerAlt className="mark" />);
-
-      // Create a new marker
-      const newMarker = new mapboxgl.Marker(markerContainer)
-        .setLngLat([coords.lng, coords.lat])
-        .addTo(map.current);
-
-      // Update the marker ref
-      markerRef.current = newMarker;
+      // Check if the click was directly on the map (not on a marker or any other overlay)
+      if (e.originalEvent.target.classList.contains('mapboxgl-canvas')) {
+        setClickCoordinates([coords.lng, coords.lat]);
+        setOpenNewHillForm(true)
+    
+    
+        // Create a DOM element for the custom marker
+        const markerContainer = document.createElement("div");
+        const root = createRoot(markerContainer);
+        root.render(<FaMapMarkerAlt className="mark" />);
+    
+        // Create a new marker
+        const newMarker = new mapboxgl.Marker(markerContainer)
+          .setLngLat([coords.lng, coords.lat])
+          .addTo(map.current);
+    
+        // Update the marker ref
+        markerRef.current = newMarker;
+      }
     });
 
 
@@ -178,7 +187,7 @@ function MapCont({ zoom, setClickCoordinates, hills }) {
       for (const peak of hills) {
         const markerContainer = document.createElement("div");
         const root = createRoot(markerContainer);
-        root.render(<FaMapMarkerAlt className={`mark ${peak.color}`} />);
+        root.render(<FaMapMarkerAlt className={`custom-marker mark ${peak.color}`} />);
 
         new mapboxgl.Marker(markerContainer)
           .setLngLat(peak.coords)

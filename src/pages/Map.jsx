@@ -5,6 +5,7 @@ import MapCont from "../ui/MapCont"
 import { useState } from "react"
 import { useHillsData } from "../features/useHillsData"
 import NewHillForm from "../features/NewHillForm"
+import Sidebar from "../ui/Sidebar"
 
 
 const StyledMap = styled.div`
@@ -25,6 +26,8 @@ const Buttons = styled.div`
 
 function Map() {
 
+  const [openNewHillForm, setOpenNewHillForm] = useState(false)
+
   const {isLoadingHills, hills, errorHills} = useHillsData()
   console.log(hills)
 
@@ -32,14 +35,18 @@ function Map() {
     const [clickCoordinates, setClickCoordinates] = useState(null);
 
     if(hills){ return (
+      <>
+      <Sidebar>
+      {openNewHillForm && <NewHillForm setOpenNewHillForm={setOpenNewHillForm}/>}
+      </Sidebar>
       <StyledMap>
-        <NewHillForm/>
         <Buttons>
             <Button size="square" onClick={() => zoom < 22 ? setZoom(zoom + 1) : zoom}><FaPlus /></Button>
             <Button size="square" onClick={() => zoom > 1 ? setZoom(zoom - 1) : zoom}><FaMinus /></Button>
         </Buttons>
-        <MapCont zoom={zoom} setClickCoordinates={setClickCoordinates} hills={hills}></MapCont>
+        <MapCont zoom={zoom} setClickCoordinates={setClickCoordinates} hills={hills} setOpenNewHillForm={setOpenNewHillForm}></MapCont>
       </StyledMap>
+      </>
     )}
 }
 

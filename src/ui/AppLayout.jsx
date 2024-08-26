@@ -40,8 +40,8 @@ const Main = styled.div`
     grid-template-columns: auto 1fr;
     position: relative;
     padding: 1rem;
-    overflow: hidden;
     transition: all 0.2s;
+    gap: 1rem;
 `;
 
 const Checkbox = styled.input`
@@ -72,9 +72,6 @@ function AppLayout() {
       </Header>
       
       <Main>
-      <Checkbox type="checkbox" id="sidebar-toggle" />
-        <SidebarButton for="sidebar-toggle">sdsds</SidebarButton>
-        <Sidebar color={location} />
         <Outlet />
       </Main>
       <Footer color={location}/>

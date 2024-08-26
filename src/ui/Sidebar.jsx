@@ -26,6 +26,19 @@ border-radius: 2rem;
 display:flex;
 height: 100%;
 width: 30rem;
+position: relative;
+`
+
+const SidebarButton = styled.label`
+  width :5rem;
+  height: 5rem;
+  position: absolute;
+  background: var(--grey-900) !important;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  border-radius: 50%;
+  cursor: pointer;
 `
 
 function Sidebar({children}) {
