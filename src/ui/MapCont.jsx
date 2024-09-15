@@ -155,11 +155,20 @@ function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm }) {
 
     map.current.on("click", (e) => {
       const coords = e.lngLat;
+      const data = e
+      console.log(data)
     
       // Remove the previous marker if it exists
       if (markerRef.current) {
         markerRef.current.remove();
       }
+
+      // Center the map on the clicked location
+    map.current.flyTo({
+      center: [coords.lng, coords.lat],
+      zoom: map.current.getZoom(), // Keep the current zoom level
+      speed: 0.7, // Optional: speed of the fly-to effect, default is 1.2
+    });
 
       // Check if the click was directly on the map (not on a marker or any other overlay)
       if (e.originalEvent.target.classList.contains('mapboxgl-canvas')) {

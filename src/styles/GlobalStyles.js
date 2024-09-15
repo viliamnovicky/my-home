@@ -249,6 +249,17 @@ img {
   background: var(--purple-400);
 }
 
+// FORM 
+
+.input-disabled {
+  pointer-events: none;
+  color: var(--grey-200)!important;
+
+  &::placeholder {
+    color: var(--grey-200)!important;
+  }
+}
+
 @keyframes active-note {
   from {
     bottom: -5rem;

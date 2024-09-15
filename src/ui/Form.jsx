@@ -10,6 +10,14 @@ export const Form = styled.form`
   }
 `;
 
+export const Heading = styled.h1`
+  text-transform: uppercase;
+  font-weight: 100;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 2rem;
+`
+
 export const FormGroup = styled.div`
   width: 100%;
   padding-bottom: 2rem;
@@ -115,6 +123,10 @@ export const Input = styled.input`
   background: rgba(255, 255, 255, 0.8);
   font-size: 1.6rem;
   width: 100%;
+
+  &::selection {
+  color: var(--white-100) !important;
+  background-color: var(--grey-400) !important;
 
   &:disabled {
     background: var(--gray-50);

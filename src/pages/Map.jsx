@@ -6,6 +6,7 @@ import { useState } from "react"
 import { useHillsData } from "../features/useHillsData"
 import NewHillForm from "../features/NewHillForm"
 import Sidebar from "../ui/Sidebar"
+import { useLocation } from "react-router"
 
 
 const StyledMap = styled.div`
@@ -27,6 +28,10 @@ const Buttons = styled.div`
 function Map() {
 
   const [openNewHillForm, setOpenNewHillForm] = useState(false)
+  const color = useLocation().pathname.split('/')[1]
+  
+  const [lng, setLng] = useState(11.264);
+  const [lat, setLat] = useState(47.4413);
 
   const {isLoadingHills, hills, errorHills} = useHillsData()
   console.log(hills)
@@ -37,7 +42,7 @@ function Map() {
     if(hills){ return (
       <>
       <Sidebar>
-      {openNewHillForm && <NewHillForm setOpenNewHillForm={setOpenNewHillForm}/>}
+      {openNewHillForm && <NewHillForm color={color} setOpenNewHillForm={setOpenNewHillForm} clickCoordinates={clickCoordinates}/>}
       </Sidebar>
       <StyledMap>
         <Buttons>
