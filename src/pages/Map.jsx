@@ -25,7 +25,7 @@ const Buttons = styled.div`
     flex-direction: column;
 `
 
-function Map({setMenuVisibility}) {
+function Map({menuVisibility, setMenuVisibility}) {
 
   const [openNewHillForm, setOpenNewHillForm] = useState(false)
   const color = useLocation().pathname.split('/')[1]
@@ -42,12 +42,12 @@ function Map({setMenuVisibility}) {
     if(hills){ return (
       <>
       <Sidebar>
-      {openNewHillForm && <NewHillForm color={color} setOpenNewHillForm={setOpenNewHillForm} clickCoordinates={clickCoordinates} setMenuVisibility={setMenuVisibility}/>}
+      {(openNewHillForm && menuVisibility) && <NewHillForm color={color} setOpenNewHillForm={setOpenNewHillForm} clickCoordinates={clickCoordinates} setMenuVisibility={setMenuVisibility}/>}
       </Sidebar>
       <StyledMap setMenuVisibility={setMenuVisibility}>
         <Buttons>
-            <Button size="square" onClick={() => zoom < 22 ? setZoom(zoom + 1) : zoom}><FaPlus /></Button>
-            <Button size="square" onClick={() => zoom > 1 ? setZoom(zoom - 1) : zoom}><FaMinus /></Button>
+            <Button size="square" color={color} onClick={() => zoom < 22 ? setZoom(zoom + 1) : zoom}><FaPlus /></Button>
+            <Button size="square" color={color} onClick={() => zoom > 1 ? setZoom(zoom - 1) : zoom}><FaMinus /></Button>
         </Buttons>
         <MapCont zoom={zoom} setClickCoordinates={setClickCoordinates} hills={hills} setOpenNewHillForm={setOpenNewHillForm} setMenuVisibility={setMenuVisibility}></MapCont>
       </StyledMap>

@@ -29,11 +29,10 @@ const StyledMain = styled.div`
 function Main({children, color, menuVisibility, setMenuVisibility}) {
     function handleMenuVisibility() {
         setMenuVisibility(!menuVisibility)
-        console.log(menuVisibility)
     }
     return (
         <StyledMain menuState = {menuVisibility ? "menu_visible" : "menu_hidden"}>
-            <Button size="dot" use="menu" color={color} onClick={handleMenuVisibility}>☰</Button>
+            <Button size="dot" use="menu" color={color} onClick={handleMenuVisibility} state={menuVisibility ? "menu_visible" : "menu_hidden"}>{menuVisibility ? "×" : "☰"}</Button>
             {children}
         </StyledMain>
     )

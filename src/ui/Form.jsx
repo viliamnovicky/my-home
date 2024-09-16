@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { buttonColors } from "../helpers/colors";
 
 export const Form = styled.form`
   background: transparent;
@@ -8,6 +9,15 @@ export const Form = styled.form`
   .inactive {
     cursor: not-allowed;
   }
+
+  input::file-selector-button {
+  border-radius: 1rem;
+  ${(props) => buttonColors[props.color]}
+  border: none;
+  padding: .8rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
 `;
 
 export const Heading = styled.h1`
@@ -16,7 +26,7 @@ export const Heading = styled.h1`
   text-align: center;
   width: 100%;
   padding-bottom: 2rem;
-`
+`;
 
 export const FormGroup = styled.div`
   width: 100%;
@@ -125,50 +135,41 @@ export const Input = styled.input`
   width: 100%;
 
   &::selection {
-  color: var(--white-100) !important;
-  background-color: var(--grey-400) !important;
+    color: var(--white-100) !important;
+    background-color: var(--grey-400) !important;
 
-  &:disabled {
-    background: var(--gray-50);
-    border: none;
-    outline: none;
-
-    &:focus,
-    &:active {
-      outline: none;
+    &:disabled {
       background: var(--gray-50);
+      border: none;
+      outline: none;
+
+      &:focus,
+      &:active {
+        outline: none;
+        background: var(--gray-50);
+      }
     }
-  }
 
-  &::placeholder {
-    transition: opacity, 0.5s;
-  }
+    &::placeholder {
+      transition: opacity, 0.5s;
+    }
 
-  & + label {
-    opacity: 0;
-    visibility: hidden;
-  }
+    & + label {
+      opacity: 0;
+      visibility: hidden;
+    }
 
-  &:focus + label,
-  &:not(:placeholder-shown) + label {
-    opacity: 1;
-    visibility: visible;
-    margin-top: 1rem;
-    color: var(--color-primary-700);
-  }
+    &:focus + label,
+    &:not(:placeholder-shown) + label {
+      opacity: 1;
+      visibility: visible;
+      margin-top: 1rem;
+      color: var(--color-primary-700);
+    }
 
-  &:focus::placeholder {
-    color: transparent;
-  }
-
-  &::file-selector-button {
-    border-radius: 10rem;
-    color: var(--color-primary-50);
-    background: var(--color-primary-300);
-    border: none;
-    padding: 1rem 2rem;
-    cursor: pointer;
-    transition: all 0.3s;
+    &:focus::placeholder {
+      color: transparent;
+    }
 
     &:hover {
       background: var(--color-primary-600);
@@ -178,10 +179,10 @@ export const Input = styled.input`
       css`
         height: 30rem;
       `}
-  }
-  &:active,
-  &:focus {
-    outline: 5px solid var(--purple-400);
-    background: var(--white);
+    &:active,
+    &:focus {
+      outline: 5px solid var(--purple-400);
+      background: var(--white);
+    }
   }
 `;

@@ -32,7 +32,7 @@ function App() {
             <Route path="home" element={<Home />}></Route>
             <Route path="food" element={<Food />}></Route>
             <Route path="coffee" element={<Coffee />}></Route>
-            <Route path="map" element={<Map setMenuVisibility={setMenuVisibility}/>}></Route>
+            <Route path="map" element={<Map menuVisibility={menuVisibility} setMenuVisibility={setMenuVisibility}/>}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

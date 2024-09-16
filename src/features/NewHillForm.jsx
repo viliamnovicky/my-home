@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useCreateHill } from "./useCreateHill";
-import { FormGroup, Input, Label, Form, Text, Heading } from "../ui/Form";
+import { FormGroup, Input, Form, Text, Heading } from "../ui/Form";
 import Button, { Buttons } from "../ui/Button";
 import {
   useGetHillName,
@@ -55,7 +55,7 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)} setOpenNewHillForm={setOpenNewHillForm}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)} setOpenNewHillForm={setOpenNewHillForm} color={color}>
       <Heading>Add new hill</Heading>
       <FormGroup>
         <Input
@@ -108,6 +108,14 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
             required: "description field is required",
           })}
         />
+      </FormGroup>
+      <FormGroup>
+        <Input 
+        id="image"
+        type="file" 
+        {...register("image", {
+          required: "Altitude field is required",
+        })}/>
       </FormGroup>
       <Buttons>
         <Button size="medium" color={color}>Submit</Button>

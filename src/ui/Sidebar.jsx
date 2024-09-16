@@ -29,18 +29,6 @@ width: 30rem;
 position: relative;
 `
 
-const SidebarButton = styled.label`
-  width :5rem;
-  height: 5rem;
-  position: absolute;
-  background: var(--grey-900) !important;
-  top: 1rem;
-  left: 1rem;
-  z-index: 2;
-  border-radius: 50%;
-  cursor: pointer;
-`
-
 function Sidebar({children}) {
     const color = useLocation().pathname.split('/')[1]
     return (
