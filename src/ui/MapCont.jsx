@@ -129,7 +129,12 @@ const geojson = {
   ],
 };
 
-function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm }) {
+function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm, setMenuVisibility }) {
+
+  function handleOpenForm() {
+    setOpenNewHillForm(true)
+    setMenuVisibility(true)
+  }
 
   mapboxgl.accessToken =
     "pk.eyJ1IjoidmlsaWFtbm92aWNreSIsImEiOiJjbGVlazBvcWYwaHVjM3ZtajZveGoxM244In0.hnpQA34MhL9qxzfDOcUd2g";
@@ -173,7 +178,7 @@ function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm }) {
       // Check if the click was directly on the map (not on a marker or any other overlay)
       if (e.originalEvent.target.classList.contains('mapboxgl-canvas')) {
         setClickCoordinates([coords.lng, coords.lat]);
-        setOpenNewHillForm(true)
+        handleOpenForm()
     
     
         // Create a DOM element for the custom marker

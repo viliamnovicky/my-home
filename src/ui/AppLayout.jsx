@@ -3,7 +3,7 @@ import Header from "./Header";
 import Navbar from "./Navbar";
 import styled, { css } from "styled-components";
 import Footer from "./Footer";
-import Sidebar from "./Sidebar";
+import Main from "./Main"
 
 const colors = {
     home: css`
@@ -32,18 +32,6 @@ overflow: hidden;
 ${props=>colors[props.color]}
 `;
 
-const Main = styled.div`
-    display: grid;
-    width: 100vw;
-    margin:auto;
-    height: calc(100% - 13rem);
-    grid-template-columns: auto 1fr;
-    position: relative;
-    padding: 1rem;
-    transition: all 0.2s;
-    gap: 1rem;
-`;
-
 const Checkbox = styled.input`
   position: absolute;
   // visibility: hidden;
@@ -61,7 +49,7 @@ const SidebarButton = styled.label`
   cursor: pointer;
 `
 
-function AppLayout() {
+function AppLayout({menuVisibility, setMenuVisibility}) {
     const location = useLocation().pathname.split('/')[1]
     console.log(location)
 
@@ -71,7 +59,7 @@ function AppLayout() {
         <Navbar />
       </Header>
       
-      <Main>
+      <Main color={location} menuVisibility={menuVisibility} setMenuVisibility={setMenuVisibility}>
         <Outlet />
       </Main>
       <Footer color={location}/>

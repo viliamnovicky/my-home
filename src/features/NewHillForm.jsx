@@ -10,7 +10,7 @@ import {
 } from "./useHillsData";
 import { useEffect, useState } from "react";
 
-function NewHillForm({ setOpenNewHillForm, clickCoordinates, color }) {
+function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisibility }) {
   const { register, handleSubmit, reset, getValues, formState, setValue } = useForm();
   const { errors } = formState;
   const { isLoadingHillInfo, hillInfo, errorHillInfo } = useGetHillNameGeonames(clickCoordinates);
@@ -19,6 +19,11 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color }) {
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   // Use effect to update the hill name state when hillName is fetched
+
+  function handleCloseForm() {
+    setOpenNewHillForm(false)
+    setMenuVisibility(false)
+  }
 
   useEffect(() => {
     if (hillInfo) {
@@ -106,7 +111,7 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color }) {
       </FormGroup>
       <Buttons>
         <Button size="medium" color={color}>Submit</Button>
-        <Button size="medium" color={color} onClick={() => setOpenNewHillForm(false)}>
+        <Button size="medium" color={color} onClick={handleCloseForm}>
           Cancel
         </Button>
       </Buttons>

@@ -21,17 +21,18 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  const [menuVisibility, setMenuVisibility] = useState(false)
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout />}>
+          <Route element={<AppLayout menuVisibility={menuVisibility} setMenuVisibility={setMenuVisibility}/>}>
             <Route index element={<Navigate replace to="home" />}></Route>
             <Route path="home" element={<Home />}></Route>
             <Route path="food" element={<Food />}></Route>
             <Route path="coffee" element={<Coffee />}></Route>
-            <Route path="map" element={<Map />}></Route>
+            <Route path="map" element={<Map setMenuVisibility={setMenuVisibility}/>}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

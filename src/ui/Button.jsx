@@ -10,28 +10,28 @@ const colors = {
     }
   `,
   food: css`
-  background: var(--food-700) !important;
-  color: var(--food-50) !important;
+    background: var(--food-700) !important;
+    color: var(--food-50) !important;
 
-  &:hover {
-    background: var(--food-900) !important;
-  }
+    &:hover {
+      background: var(--food-900) !important;
+    }
   `,
   coffee: css`
-  background: var(--coffee-700) !important;
-  color: var(--coffee-50) !important;
+    background: var(--coffee-700) !important;
+    color: var(--coffee-50) !important;
 
-  &:hover {
-    background: var(--coffee-900) !important;
-  }
+    &:hover {
+      background: var(--coffee-900) !important;
+    }
   `,
   map: css`
-  background: var(--map-700) !important;
-  color: var(--map-50) !important;
+    background: var(--map-700) !important;
+    color: var(--map-50) !important;
 
-  &:hover {
-    background: var(--map-900) !important;
-  }
+    &:hover {
+      background: var(--map-900) !important;
+    }
   `,
 };
 
@@ -72,19 +72,29 @@ const sizes = {
     color: var(--map-50);
 
     &:hover {
-        background: var(--map-800);
+      background: var(--map-800);
     }
+  `,
+};
+
+const uses = {
+  menu: css`
+    position: absolute !important;
+    left: 3rem;
+    top: 3rem;
   `,
 };
 
 const StyledButton = styled.button`
   ${(props) => sizes[props.size]}
   ${(props) => colors[props.color]}
+  ${(props) => uses[props.use]}
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
   border-radius: 1rem;
+  z-index: 1;
 `;
 
 export const Buttons = styled.div`
@@ -93,10 +103,14 @@ export const Buttons = styled.div`
   justify-content: space-between;
   margin: auto;
   align-items: center;
-`
+`;
 
-function Button({size, children, onClick, color}) {
-  return <StyledButton color={color} size={size} onClick={onClick}>{children}</StyledButton>;
+function Button({ size, children, onClick, color, use }) {
+  return (
+    <StyledButton color={color} size={size} use={use} onClick={onClick}>
+      {children}
+    </StyledButton>
+  );
 }
 
 export default Button;
