@@ -1,10 +1,19 @@
+import styled from "styled-components"
 import Sidebar from "../ui/Sidebar"
+
+const StyledHome = styled.div``
 
 function Home() {
     return (
-        <div>
-            home
-        </div>
+        <>
+        <Sidebar>
+
+        </Sidebar>
+        <StyledHome>
+            
+        </StyledHome>
+        </>
+        
     )
 }
 

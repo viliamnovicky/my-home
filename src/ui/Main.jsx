@@ -18,7 +18,7 @@ const StyledMain = styled.div`
     display: grid;
     width: 100vw;
     margin:auto;
-    height: calc(100% - 13rem);
+    height: calc(100% - 13rem) !important;
     grid-template-columns: auto 1fr;
     position: relative;
     padding: 1rem;

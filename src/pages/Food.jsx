@@ -54,9 +54,14 @@ const StyledNavLink = styled(NavLink)`
 
 function Food() {
   return (
+    <>
+    <Sidebar>
+      
+    </Sidebar>
       <StyledFood>
         
       </StyledFood>
+    </>
   );
 }
 

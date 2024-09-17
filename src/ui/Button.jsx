@@ -42,6 +42,7 @@ const uses = {
     position: absolute !important;
     left: 3rem;
     top: 3rem;
+    z-index: 5 !important;;
   `,
 };
 

@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Wildkaffee from "../../public/img/wildkaffee.png";
+import Sidebar from "../ui/Sidebar";
+import { PiCoffeeBeanFill, PiCoffeeBeanLight } from "react-icons/pi";
 
 const coffeInfo = {
   roasteryName: "wildkaffe",
@@ -25,38 +27,135 @@ const coffeInfo = {
 
 const StyledCoffee = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 15rem);
+  display: flex;
+  flex-direction: column;
+`;
+
+const CoffeeHeading = styled.h1`
+  text-transform: uppercase;
+  font-weight: 100;
+  text-align: center;
+  font-size: 5rem;
+  padding-top: 2rem;
+
+  span {
+    font-weight: 800;
+  }
+`;
+
+const CoffeeMapCont = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+  padding: 10rem;
 `;
 
 const CoffeInfo = styled.div`
- 
+  display: flex;
+  height: 100%;
+  align-items: flex-start;
+  padding-top: 10rem;
   gap: 1rem;
 `;
 
 const CountryShape = styled.img`
-  width: 20rem;
+  height: 100%;
+  opacity: 0.1;
+  filter: brightness(0) saturate(100%) invert(40%) sepia(5%) saturate(1331%) hue-rotate(314deg)
+    brightness(88%) contrast(93%);
 `;
 
 const CoffeeImage = styled.img`
-  height: 20%;
+  height: 50vh;
+`;
+
+const CoffeeCont = styled.div``;
+
+const CoffeeParagraph = styled.p`
+  text-transform: uppercase;
+  font-weight: 800;
+  padding-bottom: 1rem;
+
+  span {
+    font-weight: 100;
+  }
 `;
 
 function Coffee() {
   return (
+    <>
+      <Sidebar></Sidebar>
       <StyledCoffee>
-        {/* <CoffeInfo>
-            <h1>{coffeInfo.roasteryName}</h1>
-            <h1>{coffeInfo.coffeeName}</h1>
-            <h1>{coffeInfo.coffeeType}</h1>
-            <p>{coffeInfo.description}</p>
-            {coffeInfo.origin.length > 0 && coffeInfo.origin.map(country => 
-          <CountryShape key={`shape-${country}`} src={`/icons/maps/${country.toLowerCase()}.svg`}></CountryShape>)}
+        <CoffeeHeading>
+          {coffeInfo.roasteryName}
+          <span> {coffeInfo.coffeeName}</span>
+        </CoffeeHeading>
+        <CoffeInfo>
+          <CoffeeImage src={coffeInfo.image} />
+          <CoffeeCont>
+            <CoffeeParagraph>
+              <span>origin: </span>
+              {coffeInfo.origin.map((country, index) =>
+                index !== coffeInfo.origin.length - 1 ? country + ", " : country
+              )}
+            </CoffeeParagraph>
+
+            <CoffeeParagraph>
+              <span>type: </span>
+              {coffeInfo.coffeeType}
+            </CoffeeParagraph>
+            <CoffeeParagraph>
+              <span>beans: </span>
+              {"100% " + coffeInfo.beanType}
+            </CoffeeParagraph>
+            <CoffeeParagraph>
+              <span>taste: </span>
+              {coffeInfo.taste}
+            </CoffeeParagraph>
+            <br></br>
+            <br></br>
+            <br></br>
+            <CoffeeParagraph>
+              <span>Roast:</span> <PiCoffeeBeanFill />
+              <PiCoffeeBeanFill />
+              <PiCoffeeBeanFill />
+              <PiCoffeeBeanLight />
+              <PiCoffeeBeanLight />
+            </CoffeeParagraph>
+            <CoffeeParagraph>
+              <span>intensity:</span> <PiCoffeeBeanFill />
+              <PiCoffeeBeanFill />
+              <PiCoffeeBeanFill />
+              <PiCoffeeBeanLight />
+              <PiCoffeeBeanLight />
+            </CoffeeParagraph>
+            <CoffeeParagraph>
+              <span>acidity:</span> <PiCoffeeBeanFill />
+              <PiCoffeeBeanFill />
+              <PiCoffeeBeanLight />
+              <PiCoffeeBeanLight />
+              <PiCoffeeBeanLight />
+            </CoffeeParagraph>
+          </CoffeeCont>
         </CoffeInfo>
-        <CoffeeImage src={coffeInfo.image} /> */}
+        <CoffeeMapCont>
+          {coffeInfo.origin.length > 0 &&
+            coffeInfo.origin.map((country) => (
+              <CountryShape
+                key={`shape-${country}`}
+                src={`/icons/maps/${country.toLowerCase()}.svg`}
+              ></CountryShape>
+            ))}
+        </CoffeeMapCont>
       </StyledCoffee>
+    </>
   );
 }
 

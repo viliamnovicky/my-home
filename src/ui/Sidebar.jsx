@@ -25,8 +25,9 @@ ${props=>colors[props.color]};
 border-radius: 2rem;
 display:flex;
 height: 100%;
-width: 30rem;
+width: 100%;
 position: relative;
+z-index: 1;
 `
 
 function Sidebar({children}) {

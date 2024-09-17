@@ -29,6 +29,7 @@ const StyledFooter = styled.footer`
   justify-content: center;
   align-items: center;
   ${props=>colors[props.color]}
+  z-index: 2;
 `;
 
 function Footer({color}) {

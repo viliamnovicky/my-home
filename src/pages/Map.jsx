@@ -11,6 +11,8 @@ import { useLocation } from "react-router"
 
 const StyledMap = styled.div`
     position: relative;
+    width: 100%;
+    height: 100%;
 `
 
 const Buttons = styled.div`
