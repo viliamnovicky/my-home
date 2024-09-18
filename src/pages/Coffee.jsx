@@ -1,7 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Wildkaffee from "../../public/img/wildkaffee.png";
 import Sidebar from "../ui/Sidebar";
-import { PiCoffeeBeanFill, PiCoffeeBeanLight } from "react-icons/pi";
+import { PiCoffeeBeanFill, PiCoffeeBeanLight, PiHeartFill, PiHeartLight } from "react-icons/pi";
+import { IconContext } from "react-icons";
 
 const coffeInfo = {
   roasteryName: "wildkaffe",
@@ -14,7 +15,9 @@ const coffeInfo = {
   taste: "fruits, chocolate",
   weightSingle: 13.3,
   weightDouble: 18.5,
-  grind: 7,
+  machineDoseLevel: 13,
+  grindMachine: 4,
+  grindGrinder: 9,
   origin: ["Brazil", "Guatemala", "Ethiopia"],
   description: "Very tasty and refreshing espresso.",
   rating: 6,
@@ -23,6 +26,15 @@ const coffeInfo = {
     bottom: 1100,
     top: 2150,
   },
+};
+
+const colors = {
+  light: css`
+    background: #fff;
+  `,
+  dark: css`
+    background: #6d585827;
+  `,
 };
 
 const StyledCoffee = styled.div`
@@ -44,6 +56,12 @@ const CoffeeHeading = styled.h1`
   }
 `;
 
+const CoffeDescription = styled.h2`
+  font-style: italic;
+  font-weight: 100;
+  text-align: center;
+`
+
 const CoffeeMapCont = styled.div`
   display: flex;
   justify-content: center;
@@ -55,14 +73,17 @@ const CoffeeMapCont = styled.div`
   height: 100%;
   width: 100%;
   padding: 10rem;
+  z-index: 0;
 `;
 
 const CoffeInfo = styled.div`
   display: flex;
   height: 100%;
   align-items: flex-start;
+  justify-content: flex-end;
   padding-top: 10rem;
-  gap: 1rem;
+  padding-right: 10rem;
+  gap: 10rem;
 `;
 
 const CountryShape = styled.img`
@@ -70,81 +91,38 @@ const CountryShape = styled.img`
   opacity: 0.1;
   filter: brightness(0) saturate(100%) invert(40%) sepia(5%) saturate(1331%) hue-rotate(314deg)
     brightness(88%) contrast(93%);
+  z-index: -1;
+  position: relative;
 `;
 
 const CoffeeImage = styled.img`
-  height: 50vh;
+  width: 30vw;
 `;
 
 const CoffeeCont = styled.div``;
 
 const CoffeeParagraph = styled.p`
   text-transform: uppercase;
-  font-weight: 800;
-  padding-bottom: 1rem;
+  font-weight: 100;
+  padding: 1rem 2rem;
+  ${(props) => colors[props.color]}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-width: 40rem;
+  height: 5rem;
 
   span {
-    font-weight: 100;
+    font-weight: 800;
   }
 `;
 
 function Coffee() {
   return (
-    <>
+    <IconContext.Provider value = {{style: {fontSize: "2rem"}}}>
       <Sidebar></Sidebar>
       <StyledCoffee>
-        <CoffeeHeading>
-          {coffeInfo.roasteryName}
-          <span> {coffeInfo.coffeeName}</span>
-        </CoffeeHeading>
-        <CoffeInfo>
-          <CoffeeImage src={coffeInfo.image} />
-          <CoffeeCont>
-            <CoffeeParagraph>
-              <span>origin: </span>
-              {coffeInfo.origin.map((country, index) =>
-                index !== coffeInfo.origin.length - 1 ? country + ", " : country
-              )}
-            </CoffeeParagraph>
-
-            <CoffeeParagraph>
-              <span>type: </span>
-              {coffeInfo.coffeeType}
-            </CoffeeParagraph>
-            <CoffeeParagraph>
-              <span>beans: </span>
-              {"100% " + coffeInfo.beanType}
-            </CoffeeParagraph>
-            <CoffeeParagraph>
-              <span>taste: </span>
-              {coffeInfo.taste}
-            </CoffeeParagraph>
-            <br></br>
-            <br></br>
-            <br></br>
-            <CoffeeParagraph>
-              <span>Roast:</span> <PiCoffeeBeanFill />
-              <PiCoffeeBeanFill />
-              <PiCoffeeBeanFill />
-              <PiCoffeeBeanLight />
-              <PiCoffeeBeanLight />
-            </CoffeeParagraph>
-            <CoffeeParagraph>
-              <span>intensity:</span> <PiCoffeeBeanFill />
-              <PiCoffeeBeanFill />
-              <PiCoffeeBeanFill />
-              <PiCoffeeBeanLight />
-              <PiCoffeeBeanLight />
-            </CoffeeParagraph>
-            <CoffeeParagraph>
-              <span>acidity:</span> <PiCoffeeBeanFill />
-              <PiCoffeeBeanFill />
-              <PiCoffeeBeanLight />
-              <PiCoffeeBeanLight />
-              <PiCoffeeBeanLight />
-            </CoffeeParagraph>
-          </CoffeeCont>
-        </CoffeInfo>
         <CoffeeMapCont>
           {coffeInfo.origin.length > 0 &&
             coffeInfo.origin.map((country) => (
@@ -154,8 +132,97 @@ function Coffee() {
               ></CountryShape>
             ))}
         </CoffeeMapCont>
+        <CoffeeHeading>
+          {coffeInfo.roasteryName}
+          <span> {coffeInfo.coffeeName}</span>
+        </CoffeeHeading>
+        <CoffeDescription>„{coffeInfo.description}“</CoffeDescription>
+        <CoffeInfo>
+          <CoffeeImage src={coffeInfo.image} />
+          <CoffeeCont>
+            <CoffeeParagraph color="dark">
+              origin:
+              <span>
+                {coffeInfo.origin.map((country, index) =>
+                  index !== coffeInfo.origin.length - 1 ? country + ", " : country
+                )}
+              </span>
+            </CoffeeParagraph>
+
+            <CoffeeParagraph color="light">
+              type: <span>{coffeInfo.coffeeType}</span>
+            </CoffeeParagraph>
+            <CoffeeParagraph color={"dark"}>
+              beans:<span>{"100% " + coffeInfo.beanType}</span>
+            </CoffeeParagraph>
+            <CoffeeParagraph color={"light"}>
+              taste:<span>{coffeInfo.taste}</span>
+            </CoffeeParagraph>
+            
+            <CoffeeParagraph color={"dark"}>
+              elevation:
+              <span>
+                {coffeInfo.elevation.bottom ? `${coffeInfo.elevation.bottom} - ${coffeInfo.elevation.top} m` : `${coffeInfo.elevation.top}m`}
+              </span>
+            </CoffeeParagraph>
+            <CoffeeParagraph color={"light"}>
+              Roast:
+              <span>
+                <PiCoffeeBeanLight />
+                <PiCoffeeBeanLight />
+                <PiCoffeeBeanFill />
+                <PiCoffeeBeanFill />
+                <PiCoffeeBeanFill />
+              </span>
+            </CoffeeParagraph>
+            <CoffeeParagraph color={"dark"}>
+              intensity:
+              <span>
+                <PiCoffeeBeanLight />
+                <PiCoffeeBeanLight />
+                <PiCoffeeBeanFill />
+                <PiCoffeeBeanFill />
+                <PiCoffeeBeanFill />
+              </span>
+            </CoffeeParagraph>
+            <CoffeeParagraph color={"light"}>
+              acidity:
+              <span>
+                <PiCoffeeBeanLight />
+                <PiCoffeeBeanLight />
+                <PiCoffeeBeanLight />
+                <PiCoffeeBeanFill />
+                <PiCoffeeBeanFill />
+              </span>
+            </CoffeeParagraph>
+          </CoffeeCont>
+          <CoffeeCont>
+          <CoffeeParagraph color={"light"}>
+              rating:
+              <span>
+                
+                <PiHeartLight />
+                <PiHeartLight />
+                <PiHeartLight />
+                <PiHeartFill />
+                <PiHeartFill />
+                <PiHeartFill />
+                <PiHeartFill />
+                <PiHeartFill />
+                <PiHeartFill />
+                <PiHeartFill />
+        
+              </span>
+            </CoffeeParagraph>
+            <CoffeeParagraph color="dark">Machine dose level:<span>{coffeInfo.machineDoseLevel} / 40</span></CoffeeParagraph>
+            <CoffeeParagraph color="light">weight single shot:<span>{coffeInfo.weightSingle}g</span></CoffeeParagraph>
+            <CoffeeParagraph color="dark">weight double shot:<span>{coffeInfo.weightDouble}g</span></CoffeeParagraph>
+            <CoffeeParagraph color="light">machine Grinding size:<span>{coffeInfo.grindMachine} / 7</span></CoffeeParagraph>
+            <CoffeeParagraph color="dark">grinder Grinding size:<span>{coffeInfo.grindGrinder} / 32</span></CoffeeParagraph>
+          </CoffeeCont>
+        </CoffeInfo>
       </StyledCoffee>
-    </>
+    </IconContext.Provider>
   );
 }
 
