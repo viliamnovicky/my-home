@@ -23,12 +23,12 @@ function Login() {
     <StyledLogin>
       <LoginForm>
         <FormGroup>
+          <Input placeholder="Email"/>
           <Label>Email</Label>
-          <Input />
         </FormGroup>
         <FormGroup>
+          <Input placeholder="Password"/>
           <Label>Password</Label>
-          <Input />
         </FormGroup>
         <Buttons>
             <Button size="medium" color="confirm">Login</Button>

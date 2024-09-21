@@ -31,7 +31,6 @@ export const Heading = styled.h1`
 export const FormGroup = styled.div`
   width: 100%;
   padding-bottom: 2rem;
-  animation: opacity 0.2s forwards;
 `;
 
 export const CheckboxGroup = styled.div`
@@ -96,14 +95,6 @@ export const Text = styled.textarea`
   width: 100%;
 `;
 
-export const Label = styled.label`
-  padding-left: 1.5rem;
-  font-size: 1.6rem;
-  font-weight: 500;
-  position: relative;
-  transition: all 0.2s;
-`;
-
 export const Select = styled.select`
   padding: 1rem 1.5rem;
   border-radius: 5rem;
@@ -128,61 +119,65 @@ export const Input = styled.input`
   padding: 1rem 1.5rem;
   border-radius: 3rem;
   outline: none;
-  border: 1px solid var(--color-grey-100);
-  outline: 5px solid var(--color-primary-50);
+  border: none;
   background: rgba(255, 255, 255, 0.8);
   font-size: 1.6rem;
   width: 100%;
+  transition: all .2s;
 
   &::selection {
     color: var(--white-100) !important;
     background-color: var(--grey-400) !important;
+    outline: none;
+  border: none;
+  }
 
-    &:disabled {
-      background: var(--gray-50);
-      border: none;
-      outline: none;
+  &:disabled {
+    background: var(--gray-50);
+    border: none;
+    outline: none;
+  }
 
-      &:focus,
-      &:active {
-        outline: none;
-        background: var(--gray-50);
-      }
-    }
+  &::placeholder {
+    transition: all .2s;
+  }
 
-    &::placeholder {
-      transition: opacity, 0.5s;
-    }
+  /* Ensure label is visible when input is focused */
+  &:focus::placeholder {
+    color: transparent;
+  }
 
-    & + label {
-      opacity: 0;
-      visibility: hidden;
-    }
+  &:active,
+  &:focus {
+    outline: none;
+    border: none;
+  }
 
-    &:focus + label,
-    &:not(:placeholder-shown) + label {
-      opacity: 1;
-      visibility: visible;
-      margin-top: 1rem;
-      color: var(--color-primary-700);
-    }
+  ${(props) =>
+    props.as === "textarea" &&
+    css`
+      height: 30rem;
+    `}
+`;
 
-    &:focus::placeholder {
-      color: transparent;
-    }
+export const Label = styled.label`
+  padding-left: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.2s;
 
-    &:hover {
-      background: var(--color-primary-600);
-    }
-    ${(props) =>
-      props.as === "textarea" &&
-      css`
-        height: 30rem;
-      `}
-    &:active,
-    &:focus {
-      outline: 5px solid var(--purple-400);
-      background: var(--white);
-    }
+  /* Only hide label when input is not focused and has no value */
+  input:placeholder-shown + & {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  input:focus + &,
+  input:not(:placeholder-shown) + & {
+    opacity: 1;
+    visibility: visible;
+    margin-top: 1rem;
+    color: var(--color-primary-700);
   }
 `;
