@@ -81,7 +81,7 @@ const CoffeInfo = styled.div`
   height: 100%;
   align-items: flex-start;
   justify-content: flex-end;
-  padding-top: 10rem;
+  padding-top: 5rem;
   padding-right: 10rem;
   gap: 10rem;
 `;

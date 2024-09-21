@@ -33,4 +33,28 @@ export const buttonColors = {
         background: var(--map-900) !important;
       }
     `,
+    confirm: css`
+      background: var(--green-500) !important;
+      color: var(--green-50) !important;
+  
+      &:hover {
+        background: var(--green-600) !important;
+      }
+    `,
+    decline: css`
+      background: var(--red-500) !important;
+      color: var(--red-50) !important;
+  
+      &:hover {
+        background: var(--red-600) !important;
+      }
+    `,
+    neutral: css`
+      background: var(--grey-300) !important;
+      color: var(--grey-50) !important;
+  
+      &:hover {
+        background: var(--grey-400) !important;
+      }
+    `
   };

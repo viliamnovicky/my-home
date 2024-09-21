@@ -9,6 +9,7 @@ import Food from "./pages/Food";
 import Map from "./pages/Map";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Login from "./pages/Login";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // import { Toaster } from "react-hot-toast";
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="coffee" element={<Coffee />}></Route>
             <Route path="map" element={<Map menuVisibility={menuVisibility} setMenuVisibility={setMenuVisibility}/>}></Route>
           </Route>
+            <Route path="login" element={<Login />}></Route>
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

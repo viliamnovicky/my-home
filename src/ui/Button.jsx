@@ -21,6 +21,13 @@ const sizes = {
     padding: 1.2rem 2.4rem;
     font-weight: 500;
   `,
+  full_cont: css`
+  width: 100%;
+  font-size: 1.4rem;
+  margin-top: 1rem;
+  padding: 1rem;
+
+  `, 
   dot: css`
     width: 4rem;
     height: 4rem;
@@ -83,6 +90,7 @@ const StyledButton = styled.button`
   border-radius: 1rem;
   z-index: 1;
   transition: all .2s;
+  font-weight: 500;
 `;
 
 export const Buttons = styled.div`
