@@ -73,6 +73,11 @@ function Navbar() {
                     <span>map</span>
                 </StyledNavLink>
             </li>
+            <li>
+                <StyledNavLink to ="/login">
+                    <span>login</span>
+                </StyledNavLink>
+            </li>
         </NavList>
     )
 }

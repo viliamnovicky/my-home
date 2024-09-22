@@ -28,6 +28,7 @@ height: 100%;
 width: 100%;
 position: relative;
 z-index: 1;
+overflow-x: auto; 
 `
 
 function Sidebar({children}) {

@@ -181,3 +181,11 @@ export const Label = styled.label`
     color: var(--color-primary-700);
   }
 `;
+
+export const SelectedImage = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  margin-top: 2rem;
+  border-radius: 2rem;
+`;

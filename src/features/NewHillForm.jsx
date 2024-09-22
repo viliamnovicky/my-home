@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useCreateHill } from "./useCreateHill";
-import { FormGroup, Input, Form, Text, Heading } from "../ui/Form";
+import { FormGroup, Input, Form, Text, Heading, SelectedImage } from "../ui/Form";
 import Button, { Buttons } from "../ui/Button";
 import {
   useGetHillName,
@@ -11,7 +11,11 @@ import {
 import { useEffect, useState } from "react";
 
 function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisibility }) {
-  const { register, handleSubmit, reset, getValues, formState, setValue } = useForm();
+  const { register, handleSubmit, reset, getValues, formState, setValue, watch } = useForm();
+  
+  const [selectedImage, setSelectedImage] = useState(null);
+  const imageFile = watch("image");
+  
   const { errors } = formState;
   const { isLoadingHillInfo, hillInfo, errorHillInfo } = useGetHillNameGeonames(clickCoordinates);
   const { isCreatinHill, createHill } = useCreateHill();
@@ -20,9 +24,21 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
   const [lng, setLng] = useState("");
   // Use effect to update the hill name state when hillName is fetched
 
+
+ // Handle image preview when file input changes
+ const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const imageURL = URL.createObjectURL(file);
+    setSelectedImage(imageURL);
+  } else {
+    setSelectedImage(null);
+  }
+};
+
   function handleCloseForm() {
-    setOpenNewHillForm(false)
-    setMenuVisibility(false)
+    setOpenNewHillForm(false);
+    setMenuVisibility(false);
   }
 
   useEffect(() => {
@@ -55,7 +71,11 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)} setOpenNewHillForm={setOpenNewHillForm} color={color}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      setOpenNewHillForm={setOpenNewHillForm}
+      color={color}
+    >
       <Heading>Add new hill</Heading>
       <FormGroup>
         <Input
@@ -110,16 +130,24 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
         />
       </FormGroup>
       <FormGroup>
-        <Input 
-        id="image"
-        type="file" 
-        {...register("image", {
-          required: "Altitude field is required",
-        })}/>
+        <Input
+          id="image"
+          type="file"
+          onChange={(e) => handleImageChange(e)}
+          {...register("image", {
+            required: "Altitude field is required",
+            onChange: (event) => {
+              handleImageChange(event);
+            },
+          })}
+        />
+        {selectedImage && <SelectedImage src={selectedImage} alt="Selected" />}
       </FormGroup>
       <Buttons>
-        <Button size="medium" color={color}>Submit</Button>
-        <Button size="medium" color={color} onClick={handleCloseForm}>
+        <Button size="medium" color={color}>
+          Submit
+        </Button>
+        <Button size="medium" color="decline" onClick={handleCloseForm}>
           Cancel
         </Button>
       </Buttons>

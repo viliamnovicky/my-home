@@ -4,7 +4,7 @@ import { useState } from "react"
 
 const menu_states = {
     menu_visible: css`
-        grid-template-columns: 30rem 1fr;
+        grid-template-columns: 35rem 1fr;
         gap: 1rem;
     `,
     menu_hidden: css`

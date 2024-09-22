@@ -55,8 +55,8 @@ const uses = {
 
 const menu_states = {
   menu_visible: css`
-      left: 26rem;
-      top: 1rem;
+      left: 30rem;
+      top: 2rem;
       border-radius: 50% !important;
       width: 5rem;
       height: 5rem;
@@ -99,6 +99,7 @@ export const Buttons = styled.div`
   justify-content: space-between;
   margin: auto;
   align-items: center;
+  padding-bottom: 2rem;
 `;
 
 function Button({ size, children, onClick, color, use, state }) {
