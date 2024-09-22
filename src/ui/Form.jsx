@@ -39,17 +39,23 @@ export const CheckboxGroup = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-between;
   align-items: center;
-  padding: 0rem 0 4rem 0;
+  //padding: 2rem 0;
   margin: auto;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 2rem;
+  position: relative;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
 
   div {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     height: 100%;
+    width: 100%;
+    font-weight: 500;
 
     label {
-      top: 0;
       font-weight: 400;
       cursor: pointer;
       user-select: none;
@@ -63,7 +69,7 @@ export const CheckboxGroup = styled.div`
         height: 1.1rem;
         background: var(--white);
         border: 2px solid var(--white);
-        outline: 2px solid var(--purple-400);
+        outline: 2px solid var(--red-400);
         border-radius: 50%;
         content: "";
         position: absolute;
@@ -80,7 +86,12 @@ export const Checkbox = styled.input`
   visibility: hidden;
 
   &:checked + label:before {
-    background: var(--purple-400);
+    background: var(--green-400);
+    outline: 2px solid var(--green-400);
+  }
+
+  &:checked + label {
+    font-weight: 800;
   }
 `;
 
@@ -88,7 +99,7 @@ export const Text = styled.textarea`
   padding: 1rem 1.5rem;
   border-radius: 3rem;
   outline: none;
-  border: 1px solid var(--color-grey-100);
+  border: 1px solid var(--grey-100);
   outline: 5px solid var(--color-primary-50);
   background: rgba(255, 255, 255, 0.8);
   font-size: 1.6rem;
@@ -100,18 +111,18 @@ export const Select = styled.select`
   border-radius: 5rem;
   outline: none;
   border: none;
-  background: var(--gray-50);
+  background: rgba(255, 255, 255, 0.8);
   font-size: 1.6rem;
   width: 100%;
 
   & option {
-    background: var(--gray-50);
+    background: rgba(255, 255, 255, 0.8);
   }
 
   &:active,
   &:focus {
-    outline: 5px solid var(--color-primary-500);
-    background: var(--gray-50);
+    /* outline: 5px solid var(--grey-500); */
+    background: rgba(255, 255, 255, 0.8);
   }
 `;
 

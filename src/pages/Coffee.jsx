@@ -3,6 +3,10 @@ import Wildkaffee from "../../public/img/wildkaffee.png";
 import Sidebar from "../ui/Sidebar";
 import { PiCoffeeBeanFill, PiCoffeeBeanLight, PiHeartFill, PiHeartLight } from "react-icons/pi";
 import { IconContext } from "react-icons";
+import { useState } from "react";
+import Button from "../ui/Button";
+import CoffeeSidebar from "../features/coffee/CoffeeSidebar";
+import NewCoffeeForm from "../features/coffee/NewCoffeeForm";
 
 const coffeInfo = {
   roasteryName: "wildkaffe",
@@ -119,9 +123,13 @@ const CoffeeParagraph = styled.p`
 `;
 
 function Coffee() {
+  const [openForm, setOpenForm] = useState(false)
   return (
     <IconContext.Provider value = {{style: {fontSize: "2rem"}}}>
-      <Sidebar></Sidebar>
+      <Sidebar>
+        {!openForm && <CoffeeSidebar openForm={openForm} setOpenForm={setOpenForm}/>}
+        {openForm && <NewCoffeeForm/>}
+      </Sidebar>
       <StyledCoffee>
         <CoffeeMapCont>
           {coffeInfo.origin.length > 0 &&
