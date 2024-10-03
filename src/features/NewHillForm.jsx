@@ -1,40 +1,35 @@
 import { useForm } from "react-hook-form";
-import { useCreateHill } from "./useCreateHill";
+import { useAddHill } from "./useAddHill";
 import { FormGroup, Input, Form, Text, Heading, SelectedImage } from "../ui/Form";
 import Button, { Buttons } from "../ui/Button";
-import {
-  useGetHillName,
-  useGetHillNameGeonames,
-  useGetHillNameGoogle,
-  useGetHillNameNominatim,
-} from "./useHillsData";
+import { useGetHillNameGeonames } from "./useHillsData";
 import { useEffect, useState } from "react";
 
-function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisibility }) {
-  const { register, handleSubmit, reset, getValues, formState, setValue, watch } = useForm();
-  
+function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisibility, refetch }) {
+  const { register, handleSubmit, reset, formState, setValue } = useForm();
+
   const [selectedImage, setSelectedImage] = useState(null);
-  const imageFile = watch("image");
-  
+
   const { errors } = formState;
   const { isLoadingHillInfo, hillInfo, errorHillInfo } = useGetHillNameGeonames(clickCoordinates);
-  const { isCreatinHill, createHill } = useCreateHill();
+  const { addNewHill, isAddingHill, errorAddingHill } = useAddHill("viliamnovicky");
+
   const [name, setName] = useState("blabla");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   // Use effect to update the hill name state when hillName is fetched
 
-
- // Handle image preview when file input changes
- const handleImageChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const imageURL = URL.createObjectURL(file);
-    setSelectedImage(imageURL);
-  } else {
-    setSelectedImage(null);
-  }
-};
+  // Handle image preview when file input changes
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageURL = URL.createObjectURL(file);
+      setSelectedImage(imageURL);
+      
+    } else {
+      setSelectedImage(null);
+    }
+  };
 
   function handleCloseForm() {
     setOpenNewHillForm(false);
@@ -53,17 +48,55 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
     setValue("name", name);
   }, [name]);
 
-  function onSubmit(data) {
-    const image = data.image[0];
+  async function onSubmit(data) {
+    const image = data.image?.[0];
 
-    createHill(
-      { ...data, image: image },
-      {
-        onSuccess: (data) => {
-          reset();
-        },
-      }
-    );
+    const descriptionList = data.description
+      ? data.description
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean) // filter(Boolean) removes empty strings
+      : [];
+
+    console.log("Submitting data:", {
+      ...data,
+      image: "sdsdds",
+      altitude: Number(data.altitude),
+      longitude: Number(data.longitude),
+      latitude: Number(data.latitude),
+      description: descriptionList,
+    });
+
+    try {
+      await addNewHill({
+        ...data,
+        altitude: Number(data.altitude),
+        coords: { lng: clickCoordinates[0], lat: clickCoordinates[1] },
+        description: descriptionList,
+        image: image,
+        color:
+          data.altitude <= 500
+            ? "purple"
+            : data.altitude > 500 && data.altitude <= 1000
+            ? "blue"
+            : data.altitude > 1000 && data.altitude <= 1500
+            ? "green"
+            : data.altitude > 1500 && data.altitude <= 2000
+            ? "yellow"
+            : data.altitude > 2000 && data.altitude <= 2500
+            ? "orange"
+            : data.altitude > 2500 && data.altitude <= 3000
+            ? "red"
+            : data.altitude > 3000 && data.altitude <= 3500
+            ? "black"
+            : "white",
+      }); // Use the hook to add a new hill
+      reset(); // Reset the form after successful submission
+      handleCloseForm(); // Close the form
+      () => refetch()
+    } catch (error) {
+      console.error("Error adding hill:", error);
+    }
   }
 
   function onError(errors) {
@@ -88,7 +121,7 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
           value={name}
         />
       </FormGroup>
-      <FormGroup>
+      {/* <FormGroup>
         <Input
           id="latitude"
           className="input-disabled"
@@ -109,11 +142,12 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
             required: "longitude field is required",
           })}
         />
-      </FormGroup>
+      </FormGroup> */}
       <FormGroup>
         <Input
           id="altitude"
           placeholder="Altitude"
+          type="number"
           {...register("altitude", {
             required: "Altitude field is required",
           })}
@@ -123,10 +157,8 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
         <Text
           id="description"
           rows="6"
-          placeholder="Description"
-          {...register("description", {
-            required: "description field is required",
-          })}
+          placeholder="Description (comma-separated)"
+          {...register("description", { required: "Description field is required" })}
         />
       </FormGroup>
       <FormGroup>

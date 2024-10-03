@@ -35,7 +35,7 @@ function Map({menuVisibility, setMenuVisibility}) {
   const [lng, setLng] = useState(11.264);
   const [lat, setLat] = useState(47.4413);
 
-  const {isLoadingHills, hills, errorHills} = useHillsData()
+  const {isLoadingHills, hills, errorHills, refetch} = useHillsData()
   console.log(hills)
 
     const [zoom, setZoom] = useState(9);
@@ -44,7 +44,7 @@ function Map({menuVisibility, setMenuVisibility}) {
     if(hills){ return (
       <>
       <Sidebar>
-      {(openNewHillForm && menuVisibility) && <NewHillForm color={color} setOpenNewHillForm={setOpenNewHillForm} clickCoordinates={clickCoordinates} setMenuVisibility={setMenuVisibility}/>}
+      {(openNewHillForm && menuVisibility) && <NewHillForm color={color} setOpenNewHillForm={setOpenNewHillForm} clickCoordinates={clickCoordinates} setMenuVisibility={setMenuVisibility} refetch={refetch}/>}
       </Sidebar>
       <StyledMap setMenuVisibility={setMenuVisibility}>
         <Buttons>

@@ -1,16 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import { getHillName, getHillNameGeonames, getHillNameGoogle, getHillNameNominatim, getHills } from "../services/apiHills";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { addHill, getHillName, getHillNameGeonames, getHillNameGoogle, getHillNameNominatim, getHills } from "../services/apiHills";
 
 export function useHillsData() {
   const {
     isLoading: isLoadingHills,
     data: hills,
     error: errorHills,
+    refetch
   } = useQuery({
     queryKey: ["hills"],
-    queryFn: getHills,
+    queryFn: () => getHills("viliamnovicky"),
   });
-  return { isLoadingHills, hills, errorHills };
+  return { isLoadingHills, hills, errorHills, refetch };
 }
 
 export function useGetHillName(coords) {

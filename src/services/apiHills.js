@@ -1,26 +1,47 @@
-import { addDoc, collection, getDocs } from "firebase/firestore/lite";
+import { addDoc, collection, getDocs, doc } from "firebase/firestore/lite";
 import { database, storage } from "../utils/firebase";
-//import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-export async function getHills() {
+export async function getHills(userId) {
   try {
-    const hills = collection(database, "hills");
-    const hillsData = await getDocs(hills);
+    const hillsCollection = collection(doc(database, "users", userId), "hills");
+    const hillsData = await getDocs(hillsCollection);
     const hillsList = hillsData.docs.map((doc) => doc.data());
     return hillsList;
   } catch (error) {
-    throw new Error("Something went wrong while receiving the hills data");
+    throw new Error("Something went wrong while receiving the hills data: " + error.message);
   }
 }
 
-export async function createEditHill(hill) {
+export async function addHill(userId, hillData) {
+  
   try {
-    const hillsCollection = collection(database, "hills");
-    await addDoc(hillsCollection, hill);
-    console.log("Hill added successfully");
+    const hillsCollection = collection(doc(database, "users", userId), "hills");
+    
+    // Check if there's an image and upload it
+    let imageUrl = null;
+    if (hillData.image) {
+  
+      const imageRef = ref(storage, `hills/${hillData.name}_${hillData.altitude}`);
+
+      const metadata = {
+        contentType: hillData.image.type || 'image/jpeg', // Default to 'image/jpeg' if type is not set
+      };
+      
+      // Upload the image
+      await uploadBytes(imageRef, hillData.image, metadata);
+      
+      // Get the download URL
+      imageUrl = await getDownloadURL(imageRef);
+    }
+
+    // Create hill document with image URL
+    const newHillDoc = await addDoc(hillsCollection, { ...hillData, image: imageUrl });
+    
+    return { id: newHillDoc.id, ...hillData, image: imageUrl};
   } catch (error) {
-    console.error("Error adding hill: ", error);
-    throw new Error("Something went wrong while adding the hill");
+    console.error("Error adding hill:", error);
+    throw new Error("Something went wrong while adding the hill: " + error.message);
   }
 }
 

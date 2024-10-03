@@ -22,12 +22,11 @@ const sizes = {
     font-weight: 500;
   `,
   full_cont: css`
-  width: 100%;
-  font-size: 1.4rem;
-  margin-top: 1rem;
-  padding: 1rem;
-
-  `, 
+    width: 100%;
+    font-size: 1.4rem;
+    margin-top: 1rem;
+    padding: 1rem;
+  `,
   dot: css`
     width: 4rem;
     height: 4rem;
@@ -49,34 +48,34 @@ const uses = {
     position: absolute !important;
     left: 3rem;
     top: 3rem;
-    z-index: 5 !important;;
+    z-index: 5 !important;
   `,
 };
 
 const menu_states = {
   menu_visible: css`
-      left: 30rem;
-      top: 2rem;
-      border-radius: 50% !important;
-      width: 5rem;
-      height: 5rem;
-      filter: invert(100%);
-      background: transparent !important;
-      font-size: 3rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0;
+    left: 30rem;
+    top: 2rem;
+    border-radius: 50% !important;
+    width: 5rem;
+    height: 5rem;
+    filter: invert(100%);
+    background: transparent !important;
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
 
-      &:hover {
-        filter: none;
-      }
+    &:hover {
+      filter: none;
+    }
   `,
   menu_hidden: css`
-      left: 3rem;
-      top: 3rem;
-  `
-}
+    left: 3rem;
+    top: 3rem;
+  `,
+};
 
 const StyledButton = styled.button`
   ${(props) => sizes[props.size]}
@@ -89,8 +88,18 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 1rem;
   z-index: 1;
-  transition: all .2s;
+  transition: all 0.2s;
   font-weight: 500;
+  border: none;
+  outline: none;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
+    border: none !important;
+    outline: none !important;
+  }
 `;
 
 export const Buttons = styled.div`
