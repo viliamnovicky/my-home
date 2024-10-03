@@ -74,6 +74,8 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
         coords: { lng: clickCoordinates[0], lat: clickCoordinates[1] },
         description: descriptionList,
         image: image,
+        countryName: hillInfo.countryName,
+        countryCode: hillInfo.countryCode,
         color:
           data.altitude <= 500
             ? "purple"

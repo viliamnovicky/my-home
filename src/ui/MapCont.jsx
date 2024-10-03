@@ -38,6 +38,12 @@ const StyledMapCont = styled.div`
     color: var(--map-700);
   }
 
+  .hover-popup {
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 1.6rem;
+  }
+
   .purple {
     color: #9e7cd7;
   }
@@ -133,24 +139,40 @@ function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm, setMenu
 
     {
       hills &&
-        map.current.on("load", () => {
-          for (const peak of hills) {
-            const markerContainer = document.createElement("div");
-            const root = createRoot(markerContainer);
-            root.render(<FaMapMarkerAlt className={`custom-marker mark ${peak.color}`} />);
+  map.current.on("load", () => {
+    for (const peak of hills) {
+      const markerContainer = document.createElement("div");
+      const root = createRoot(markerContainer);
+      root.render(<FaMapMarkerAlt className={`custom-marker mark ${peak.color}`} />);
 
-            new mapboxgl.Marker(markerContainer)
-              .setLngLat(peak.coords)
-              .setPopup(
-                new mapboxgl.Popup({ offset: 20 }).setHTML(
-                  `<h3>${peak.name} (${peak.altitude}m)</h3>
-              <img src="${peak.image}"></img>
-              <button class="popup-button">details</button>`
-                )
-              )
-              .addTo(map.current);
-          }
-        });
+      // Create the main popup
+      const mainPopup = new mapboxgl.Popup({ offset: 20 }).setHTML(
+        `<h3>${peak.name} (${peak.altitude}m)</h3>
+         <img src="${peak.image}" alt="${peak.name}"></img>
+         <button class="popup-button" id=${peak.id}>details</button>`
+      );
+
+      // Create the hover popup
+      const hoverPopup = new mapboxgl.Popup({ offset: 10, className: 'hover-popup' })
+        .setHTML(`<p class="hover-popup">${peak.name} (${peak.altitude}m)</p>`)
+        .setLngLat(peak.coords);
+
+      // Create the marker and attach mouse events
+      const marker = new mapboxgl.Marker(markerContainer)
+        .setLngLat(peak.coords)
+        .setPopup(mainPopup)
+        .addTo(map.current);
+
+      // Add mouse events to show/hide hover popup
+      markerContainer.addEventListener('mouseenter', () => {
+        hoverPopup.addTo(map.current);
+      });
+
+      markerContainer.addEventListener('mouseleave', () => {
+        hoverPopup.remove();
+      });
+    }
+  });
     }
 
     map.current.on("error", (error) => {

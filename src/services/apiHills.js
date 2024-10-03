@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, doc } from "firebase/firestore/lite";
+import { addDoc, collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore/lite";
 import { database, storage } from "../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
@@ -14,31 +14,42 @@ export async function getHills(userId) {
 }
 
 export async function addHill(userId, hillData) {
-  
+  console.log("Adding hill with data:", hillData, userId);
   try {
     const hillsCollection = collection(doc(database, "users", userId), "hills");
-    
+
+    // Use the name as the document ID
+    const customId = `${hillData.name}_${hillData.altitude}`;
+
+    // Check if a hill with the same name already exists
+    const hillDocRef = doc(hillsCollection, customId);
+    const hillDocSnap = await getDoc(hillDocRef);
+    if (hillDocSnap.exists()) {
+      throw new Error("A hill with this name already exists. Please choose a different name.");
+    }
+
     // Check if there's an image and upload it
     let imageUrl = null;
     if (hillData.image) {
-  
-      const imageRef = ref(storage, `hills/${hillData.name}_${hillData.altitude}`);
-
+      const imageRef = ref(storage, `images/${hillData.image.name}`);
+      
+      // Set the content type based on the file type
       const metadata = {
-        contentType: hillData.image.type || 'image/jpeg', // Default to 'image/jpeg' if type is not set
+        contentType: hillData.image.type || 'image/jpeg',
       };
       
-      // Upload the image
+      // Upload the image with metadata
       await uploadBytes(imageRef, hillData.image, metadata);
       
       // Get the download URL
       imageUrl = await getDownloadURL(imageRef);
     }
 
-    // Create hill document with image URL
-    const newHillDoc = await addDoc(hillsCollection, { ...hillData, image: imageUrl });
-    
-    return { id: newHillDoc.id, ...hillData, image: imageUrl};
+    // Set the document with the name as the ID
+    await setDoc(hillDocRef, { ...hillData, image: imageUrl });
+
+    console.log("Hill added with custom ID (name):", customId);
+    return { id: customId, ...hillData, image: imageUrl };
   } catch (error) {
     console.error("Error adding hill:", error);
     throw new Error("Something went wrong while adding the hill: " + error.message);
