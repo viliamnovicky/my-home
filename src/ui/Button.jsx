@@ -50,6 +50,12 @@ const uses = {
     top: 3rem;
     z-index: 5 !important;
   `,
+  close: css`
+  position: absolute;
+    right: 2rem;
+    top: 2rem;
+    border-radius: 50% !important;
+  `
 };
 
 const menu_states = {

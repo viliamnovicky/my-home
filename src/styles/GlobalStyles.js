@@ -181,6 +181,12 @@ button {
   cursor: not-allowed;
 }
 
+*:focus,
+*:active {
+  border: none;
+  outline: none;
+}
+
 select:disabled,
 input:disabled {
   background-color: var(--color-grey-200);

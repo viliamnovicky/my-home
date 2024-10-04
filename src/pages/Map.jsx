@@ -1,60 +1,96 @@
-import styled from "styled-components"
-import Button from "../ui/Button"
-import { FaMinus, FaPlus } from "react-icons/fa"
-import MapCont from "../ui/MapCont"
-import { useState } from "react"
-import { useHillsData } from "../features/useHillsData"
-import NewHillForm from "../features/NewHillForm"
-import Sidebar from "../ui/Sidebar"
-import { useLocation } from "react-router"
-
+import styled from "styled-components";
+import Button from "../ui/Button";
+import { FaMinus, FaPlus } from "react-icons/fa";
+import MapCont from "../ui/MapCont";
+import { useState } from "react";
+import { useHillsData } from "../features/map/useHillsData";
+import NewHillForm from "../features/map/NewHillForm";
+import Sidebar from "../ui/Sidebar";
+import { useLocation } from "react-router";
+import Modal from "../ui/Modal";
+import HillModal from "../features/map/HillModal";
 
 const StyledMap = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
 
 const Buttons = styled.div`
-    position: absolute;
-    right: 2rem;
-    top: 2rem;
-    z-index: 2;
-    width: auto;
-    height: auto;
-    gap: 1rem;
-    display: flex;
-    flex-direction: column;
-`
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  z-index: 2;
+  width: auto;
+  height: auto;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+`;
 
-function Map({menuVisibility, setMenuVisibility}) {
+function Map({ menuVisibility, setMenuVisibility }) {
+  const [openNewHillForm, setOpenNewHillForm] = useState(false);
+  const [isOpenHillModal, setIsOpenHillModal] = useState(false);
+  const [openHill, setOpenHill] = [""]
 
-  const [openNewHillForm, setOpenNewHillForm] = useState(false)
-  const color = useLocation().pathname.split('/')[1]
-  
-  const [lng, setLng] = useState(11.264);
-  const [lat, setLat] = useState(47.4413);
+  const color = useLocation().pathname.split("/")[1];
 
-  const {isLoadingHills, hills, errorHills, refetch} = useHillsData()
-  console.log(hills)
+  const { isLoadingHills, hills, errorHills, refetch } = useHillsData();
+  console.log(hills);
 
-    const [zoom, setZoom] = useState(9);
-    const [clickCoordinates, setClickCoordinates] = useState(null);
+  const [zoom, setZoom] = useState(9);
+  const [clickCoordinates, setClickCoordinates] = useState(null);
 
-    if(hills){ return (
+  function handleOpenHillDetails() {
+    setIsOpenHillModal(true)
+  }
+
+  if (hills) {
+    return (
       <>
-      <Sidebar>
-      {(openNewHillForm && menuVisibility) && <NewHillForm color={color} setOpenNewHillForm={setOpenNewHillForm} clickCoordinates={clickCoordinates} setMenuVisibility={setMenuVisibility} refetch={refetch}/>}
-      </Sidebar>
-      <StyledMap setMenuVisibility={setMenuVisibility}>
-        <Buttons>
-            <Button size="square" color={color} onClick={() => zoom < 22 ? setZoom(zoom + 1) : zoom}><FaPlus /></Button>
-            <Button size="square" color={color} onClick={() => zoom > 1 ? setZoom(zoom - 1) : zoom}><FaMinus /></Button>
-        </Buttons>
-        <MapCont zoom={zoom} setClickCoordinates={setClickCoordinates} hills={hills} setOpenNewHillForm={setOpenNewHillForm} setMenuVisibility={setMenuVisibility}></MapCont>
-      </StyledMap>
+        <Sidebar>
+          {openNewHillForm && menuVisibility && (
+            <NewHillForm
+              color={color}
+              setOpenNewHillForm={setOpenNewHillForm}
+              clickCoordinates={clickCoordinates}
+              setMenuVisibility={setMenuVisibility}
+              refetch={refetch}
+            />
+          )}
+        </Sidebar>
+        <StyledMap setMenuVisibility={setMenuVisibility}>
+          <Buttons>
+            <Button
+              size="square"
+              color={color}
+              onClick={() => (zoom < 22 ? setZoom(zoom + 1) : zoom)}
+            >
+              <FaPlus />
+            </Button>
+            <Button
+              size="square"
+              color={color}
+              onClick={() => (zoom > 1 ? setZoom(zoom - 1) : zoom)}
+            >
+              <FaMinus />
+            </Button>
+          </Buttons>
+          <MapCont
+            onShowDetails={handleOpenHillDetails}
+            zoom={zoom}
+            setClickCoordinates={setClickCoordinates}
+            hills={hills}
+            setOpenNewHillForm={setOpenNewHillForm}
+            setMenuVisibility={setMenuVisibility}
+          ></MapCont>
+        </StyledMap>
+        {isOpenHillModal && <Modal onClose={() => setIsOpenHillModal(false)}>
+          <HillModal></HillModal>
+        </Modal>}
       </>
-    )}
+    );
+  }
 }
 
-export default Map
+export default Map;

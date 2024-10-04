@@ -24,3 +24,15 @@ export const H1 = styled.h1`
         padding: 1rem;
     }
 `
+
+export const H3 = styled.h3`
+    font-size: 4rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 2rem 0;
+    letter-spacing: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`

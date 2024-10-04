@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { addHill } from "../services/apiHills";
+import { addHill } from "../../services/apiHills";
 //import toast from "react-hot-toast";
 
 export function useAddHill(userId) {

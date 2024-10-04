@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAddHill } from "./useAddHill";
-import { FormGroup, Input, Form, Text, Heading, SelectedImage } from "../ui/Form";
-import Button, { Buttons } from "../ui/Button";
+import { FormGroup, Input, Form, Text, Heading, SelectedImage } from "../../ui/Form";
+import Button, { Buttons } from "../../ui/Button";
 import { useGetHillNameGeonames } from "./useHillsData";
 import { useEffect, useState } from "react";
 
@@ -25,7 +25,6 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
     if (file) {
       const imageURL = URL.createObjectURL(file);
       setSelectedImage(imageURL);
-      
     } else {
       setSelectedImage(null);
     }
@@ -53,7 +52,7 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
 
     const descriptionList = data.description
       ? data.description
-          .split(",")
+          .split("...")
           .map((item) => item.trim())
           .filter(Boolean) // filter(Boolean) removes empty strings
       : [];
@@ -95,7 +94,7 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
       }); // Use the hook to add a new hill
       reset(); // Reset the form after successful submission
       handleCloseForm(); // Close the form
-      () => refetch()
+      () => refetch();
     } catch (error) {
       console.error("Error adding hill:", error);
     }
@@ -159,7 +158,7 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
         <Text
           id="description"
           rows="6"
-          placeholder="Description (comma-separated)"
+          placeholder="Description"
           {...register("description", { required: "Description field is required" })}
         />
       </FormGroup>

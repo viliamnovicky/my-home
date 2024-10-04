@@ -9,7 +9,7 @@ const StyledSearchbar = styled.div`
     right: .5rem;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 2000;
+    z-index: 2;
     color: var(--grey-800)
   }
 

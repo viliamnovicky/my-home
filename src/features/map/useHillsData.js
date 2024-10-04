@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { addHill, getHillName, getHillNameGeonames, getHillNameGoogle, getHillNameNominatim, getHills } from "../services/apiHills";
+import { useQuery } from "@tanstack/react-query";
+import { getHillName, getHillNameGeonames, getHillNameGoogle, getHillNameNominatim, getHills } from "../../services/apiHills";
 
 export function useHillsData() {
   const {

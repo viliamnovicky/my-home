@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore/lite";
 import { database, storage } from "../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 

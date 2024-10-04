@@ -1,9 +1,8 @@
 import mapboxgl from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { FaMapMarkerAlt, FaMarker } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import { createRoot } from "react-dom/client";
-import { useHillsData } from "../features/useHillsData";
 
 const StyledMapCont = styled.div`
   height: 100%;
@@ -73,7 +72,7 @@ const StyledMapCont = styled.div`
   }
 `;
 
-function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm, setMenuVisibility }) {
+function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm, setMenuVisibility, onShowDetails }) {
   function handleOpenForm() {
     setOpenNewHillForm(true);
     setMenuVisibility(true);
@@ -149,7 +148,7 @@ function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm, setMenu
       const mainPopup = new mapboxgl.Popup({ offset: 20 }).setHTML(
         `<h3>${peak.name} (${peak.altitude}m)</h3>
          <img src="${peak.image}" alt="${peak.name}"></img>
-         <button class="popup-button" id=${peak.id}>details</button>`
+         <button class="popup-button" id=${peak.id} onClick={onShowDetails}>details</button>`
       );
 
       // Create the hover popup
@@ -170,6 +169,10 @@ function MapCont({ zoom, setClickCoordinates, hills, setOpenNewHillForm, setMenu
 
       markerContainer.addEventListener('mouseleave', () => {
         hoverPopup.remove();
+      });
+
+      mainPopup.on('open', () => {
+        document.getElementById(peak.id).addEventListener('click', onShowDetails);
       });
     }
   });
