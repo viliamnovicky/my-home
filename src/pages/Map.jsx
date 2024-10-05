@@ -9,6 +9,8 @@ import Sidebar from "../ui/Sidebar";
 import { useLocation } from "react-router";
 import Modal from "../ui/Modal";
 import HillModal from "../features/map/HillModal";
+import { useUpdateQuery, useDeleteQuery } from "../helpers/updateQuery";
+
 
 const StyledMap = styled.div`
   position: relative;
@@ -31,18 +33,29 @@ const Buttons = styled.div`
 function Map({ menuVisibility, setMenuVisibility }) {
   const [openNewHillForm, setOpenNewHillForm] = useState(false);
   const [isOpenHillModal, setIsOpenHillModal] = useState(false);
-  const [openHill, setOpenHill] = [""]
+  const [openHill, setOpenHill] = useState("")
+  const updateQuery = useUpdateQuery()
+  const deleteQuery = useDeleteQuery()
 
   const color = useLocation().pathname.split("/")[1];
 
   const { isLoadingHills, hills, errorHills, refetch } = useHillsData();
+  
+
   console.log(hills);
 
   const [zoom, setZoom] = useState(9);
   const [clickCoordinates, setClickCoordinates] = useState(null);
 
-  function handleOpenHillDetails() {
+  function handleOpenHillDetails(hill) {
+    setOpenHill(hill.tag)
     setIsOpenHillModal(true)
+    updateQuery("hill", hill)
+  }
+
+  function handleCloseModal() {
+    setIsOpenHillModal(false)
+    deleteQuery("hill")
   }
 
   if (hills) {
@@ -85,7 +98,7 @@ function Map({ menuVisibility, setMenuVisibility }) {
             setMenuVisibility={setMenuVisibility}
           ></MapCont>
         </StyledMap>
-        {isOpenHillModal && <Modal onClose={() => setIsOpenHillModal(false)}>
+        {isOpenHillModal && <Modal onClose={handleCloseModal}>
           <HillModal></HillModal>
         </Modal>}
       </>

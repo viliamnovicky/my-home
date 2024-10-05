@@ -10,6 +10,7 @@ const Outer = styled.div`
   background: rgba(35, 35, 35, 0.2);
   backdrop-filter: blur(5px);
   z-index: 10;
+  transition: all .2s;
 `;
 
 const Inner = styled.div`
@@ -21,6 +22,8 @@ const Inner = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 2rem;
+    transition: all .2s;
+    overflow: hidden;
 `
 
 function Modal({children, onClose}) {

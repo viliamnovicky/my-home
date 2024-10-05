@@ -7,6 +7,7 @@ import { useState } from "react";
 import Button from "../ui/Button";
 import CoffeeSidebar from "../features/coffee/CoffeeSidebar";
 import NewCoffeeForm from "../features/coffee/NewCoffeeForm";
+import { Paragraph } from "../ui/Heading";
 
 const coffeInfo = {
   roasteryName: "wildkaffe",
@@ -30,15 +31,6 @@ const coffeInfo = {
     bottom: 1100,
     top: 2150,
   },
-};
-
-const colors = {
-  light: css`
-    background: #fff;
-  `,
-  dark: css`
-    background: #6d585827;
-  `,
 };
 
 const StyledCoffee = styled.div`
@@ -105,23 +97,6 @@ const CoffeeImage = styled.img`
 
 const CoffeeCont = styled.div``;
 
-const CoffeeParagraph = styled.p`
-  text-transform: uppercase;
-  font-weight: 100;
-  padding: 1rem 2rem;
-  ${(props) => colors[props.color]}
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  min-width: 40rem;
-  height: 5rem;
-
-  span {
-    font-weight: 800;
-  }
-`;
-
 function Coffee() {
   const [openForm, setOpenForm] = useState(false)
   return (
@@ -148,32 +123,32 @@ function Coffee() {
         <CoffeInfo>
           <CoffeeImage src={coffeInfo.image} />
           <CoffeeCont>
-            <CoffeeParagraph color="dark">
+            <Paragraph color="dark">
               origin:
               <span>
                 {coffeInfo.origin.map((country, index) =>
                   index !== coffeInfo.origin.length - 1 ? country + ", " : country
                 )}
               </span>
-            </CoffeeParagraph>
+            </Paragraph>
 
-            <CoffeeParagraph color="light">
+            <Paragraph color="light">
               type: <span>{coffeInfo.coffeeType}</span>
-            </CoffeeParagraph>
-            <CoffeeParagraph color={"dark"}>
+            </Paragraph>
+            <Paragraph color={"dark"}>
               beans:<span>{"100% " + coffeInfo.beanType}</span>
-            </CoffeeParagraph>
-            <CoffeeParagraph color={"light"}>
+            </Paragraph>
+            <Paragraph color={"light"}>
               taste:<span>{coffeInfo.taste}</span>
-            </CoffeeParagraph>
+            </Paragraph>
             
-            <CoffeeParagraph color={"dark"}>
+            <Paragraph color={"dark"}>
               elevation:
               <span>
                 {coffeInfo.elevation.bottom ? `${coffeInfo.elevation.bottom} - ${coffeInfo.elevation.top} m` : `${coffeInfo.elevation.top}m`}
               </span>
-            </CoffeeParagraph>
-            <CoffeeParagraph color={"light"}>
+            </Paragraph>
+            <Paragraph color={"light"}>
               Roast:
               <span>
                 <PiCoffeeBeanLight />
@@ -182,8 +157,8 @@ function Coffee() {
                 <PiCoffeeBeanFill />
                 <PiCoffeeBeanFill />
               </span>
-            </CoffeeParagraph>
-            <CoffeeParagraph color={"dark"}>
+            </Paragraph>
+            <Paragraph color={"dark"}>
               intensity:
               <span>
                 <PiCoffeeBeanLight />
@@ -192,8 +167,8 @@ function Coffee() {
                 <PiCoffeeBeanFill />
                 <PiCoffeeBeanFill />
               </span>
-            </CoffeeParagraph>
-            <CoffeeParagraph color={"light"}>
+            </Paragraph>
+            <Paragraph color={"light"}>
               acidity:
               <span>
                 <PiCoffeeBeanLight />
@@ -202,10 +177,10 @@ function Coffee() {
                 <PiCoffeeBeanFill />
                 <PiCoffeeBeanFill />
               </span>
-            </CoffeeParagraph>
+            </Paragraph>
           </CoffeeCont>
           <CoffeeCont>
-          <CoffeeParagraph color={"light"}>
+          <Paragraph color={"light"}>
               rating:
               <span>
                 
@@ -221,12 +196,12 @@ function Coffee() {
                 <PiHeartFill />
         
               </span>
-            </CoffeeParagraph>
-            <CoffeeParagraph color="dark">Machine dose level:<span>{coffeInfo.machineDoseLevel} / 40</span></CoffeeParagraph>
-            <CoffeeParagraph color="light">weight single shot:<span>{coffeInfo.weightSingle}g</span></CoffeeParagraph>
-            <CoffeeParagraph color="dark">weight double shot:<span>{coffeInfo.weightDouble}g</span></CoffeeParagraph>
-            <CoffeeParagraph color="light">machine Grinding size:<span>{coffeInfo.grindMachine} / 7</span></CoffeeParagraph>
-            <CoffeeParagraph color="dark">grinder Grinding size:<span>{coffeInfo.grindGrinder} / 32</span></CoffeeParagraph>
+            </Paragraph>
+            <Paragraph color="dark">Machine dose level:<span>{coffeInfo.machineDoseLevel} / 40</span></Paragraph>
+            <Paragraph color="light">weight single shot:<span>{coffeInfo.weightSingle}g</span></Paragraph>
+            <Paragraph color="dark">weight double shot:<span>{coffeInfo.weightDouble}g</span></Paragraph>
+            <Paragraph color="light">machine Grinding size:<span>{coffeInfo.grindMachine} / 7</span></Paragraph>
+            <Paragraph color="dark">grinder Grinding size:<span>{coffeInfo.grindGrinder} / 32</span></Paragraph>
           </CoffeeCont>
         </CoffeInfo>
       </StyledCoffee>

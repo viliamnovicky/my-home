@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { collection, getDocs, doc, getDoc, setDoc, query, where } from "firebase/firestore/lite";
 import { database, storage } from "../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
@@ -10,6 +10,27 @@ export async function getHills(userId) {
     return hillsList;
   } catch (error) {
     throw new Error("Something went wrong while receiving the hills data: " + error.message);
+  }
+}
+
+export async function getHill(userId, tag) {
+  try {
+    const hillsCollection = collection(doc(database, "users", userId), "hills");
+
+    // Query the hills collection for a document where the 'name' field matches hillName
+    const q = query(hillsCollection, where("tag", "==", tag));
+    const hillsData = await getDocs(q);
+
+    // Check if we found a document
+    if (hillsData.empty) {
+      throw new Error(`No hill found with the tag "${tag}"`);
+    }
+
+    // Assuming hillName is unique, return the first matching hill
+    const hill = hillsData.docs[0].data();
+    return hill;
+  } catch (error) {
+    throw new Error("Something went wrong while receiving the hill data: " + error.message);
   }
 }
 

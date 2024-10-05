@@ -1,18 +1,34 @@
 import { useQuery } from "@tanstack/react-query";
-import { getHillName, getHillNameGeonames, getHillNameGoogle, getHillNameNominatim, getHills } from "../../services/apiHills";
+import { getHill, getHillName, getHillNameGeonames, getHillNameGoogle, getHillNameNominatim, getHills } from "../../services/apiHills";
 
 export function useHillsData() {
   const {
     isLoading: isLoadingHills,
     data: hills,
     error: errorHills,
-    refetch
+    refetch: refetchHills
   } = useQuery({
     queryKey: ["hills"],
     queryFn: () => getHills("viliamnovicky"),
   });
-  return { isLoadingHills, hills, errorHills, refetch };
+  return { isLoadingHills, hills, errorHills, refetchHills };
 }
+
+export function useGetHillData(userId, tag) {
+  const {
+    isLoading: isLoadingHill,
+    data: hillData,
+    error: errorHill,
+    refetch: refetchHill
+  } = useQuery({
+    queryKey: ["hill", userId, tag], // Unique query key to cache based on userId and tag
+    queryFn: () => getHill(userId, tag),
+    enabled: !!userId && !!tag, // Only run the query if userId and tag are provided
+  });
+
+  return { isLoadingHill, hillData, errorHill, refetchHill };
+}
+
 
 export function useGetHillName(coords) {
   const {

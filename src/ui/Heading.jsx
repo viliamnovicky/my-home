@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+const colors = {
+    light: css`
+      background: #fff;
+    `,
+    dark: css`
+      background: var(--grey-50);
+    `,
+  };
 
 export const H1 = styled.h1`
     font-size: 6rem;
@@ -36,3 +45,32 @@ export const H3 = styled.h3`
     justify-content: center;
     align-items: center;
 `
+
+export const H5 = styled.h5`
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 2rem 0;
+    letter-spacing: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+export const Paragraph = styled.p`
+  text-transform: uppercase;
+  font-weight: 100;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-width: 40rem;
+  height: 5rem;
+  ${(props) => colors[props.color]}
+
+  span {
+    font-weight: 800;
+  }
+`;
