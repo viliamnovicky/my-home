@@ -40,7 +40,7 @@ export async function addHill(userId, hillData) {
     const hillsCollection = collection(doc(database, "users", userId), "hills");
 
     // Use the name as the document ID
-    const customId = `${hillData.name}_${hillData.altitude}`;
+    const customId = `${hillData.name.toLowerCase().replace(/\s+/g, '-')}-${hillData.altitude}`;
 
     // Check if a hill with the same name already exists
     const hillDocRef = doc(hillsCollection, customId);
@@ -52,25 +52,30 @@ export async function addHill(userId, hillData) {
     // Check if there's an image and upload it
     let imageUrl = null;
     if (hillData.image) {
-      const imageRef = ref(storage, `images/${hillData.image.name}`);
-      
+      const imageRef = ref(storage, `hills/${hillData.name.toLowerCase().replace(/\s+/g, '-')}-${hillData.altitude}`);
+
       // Set the content type based on the file type
       const metadata = {
-        contentType: hillData.image.type || 'image/jpeg',
+        contentType: hillData.image.type || "image/jpeg",
       };
-      
+
       // Upload the image with metadata
       await uploadBytes(imageRef, hillData.image, metadata);
-      
+
       // Get the download URL
       imageUrl = await getDownloadURL(imageRef);
     }
 
     // Set the document with the name as the ID
-    await setDoc(hillDocRef, { ...hillData, image: imageUrl });
+    await setDoc(hillDocRef, { ...hillData, image: imageUrl, visits: [{ date: hillData.lastVisit, image: imageUrl }], });
 
     console.log("Hill added with custom ID (name):", customId);
-    return { id: customId, ...hillData, image: imageUrl };
+    return {
+      id: customId,
+      ...hillData,
+      image: imageUrl,
+      visits: [{ date: hillData.lastVisit, image: imageUrl }],
+    };
   } catch (error) {
     console.error("Error adding hill:", error);
     throw new Error("Something went wrong while adding the hill: " + error.message);
@@ -78,17 +83,20 @@ export async function addHill(userId, hillData) {
 }
 
 export async function getHillName(coords) {
-  const lat  = coords[1]; // Destructure the coordinates
-  const lng = coords[0]
-  const accessToken = "pk.eyJ1IjoidmlsaWFtbm92aWNreSIsImEiOiJjbGVlazBvcWYwaHVjM3ZtajZveGoxM244In0.hnpQA34MhL9qxzfDOcUd2g";
+  const lat = coords[1]; // Destructure the coordinates
+  const lng = coords[0];
+  const accessToken =
+    "pk.eyJ1IjoidmlsaWFtbm92aWNreSIsImEiOiJjbGVlazBvcWYwaHVjM3ZtajZveGoxM244In0.hnpQA34MhL9qxzfDOcUd2g";
 
   try {
     // Make a request to the Mapbox Reverse Geocoding API
-    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${accessToken}`);
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${accessToken}`
+    );
 
     // Check if the response is ok
     if (!response.ok) {
-      throw new Error('Failed to fetch hill name');
+      throw new Error("Failed to fetch hill name");
     }
 
     // Parse the JSON response
@@ -100,26 +108,28 @@ export async function getHillName(coords) {
       const hillName = data.features;
       return hillName;
     } else {
-      throw new Error('No hill name found for the given coordinates');
+      throw new Error("No hill name found for the given coordinates");
     }
   } catch (error) {
-    console.error('Error in findHillName:', error.message);
+    console.error("Error in findHillName:", error.message);
     throw error; // Rethrow the error to handle it in the calling function
   }
 }
 
 export async function getHillNameGoogle(coords) {
-  const lat  = coords[1]; // Destructure the coordinates
-  const lng = coords[0]
-  const apiKey = 'AIzaSyCzCk2eakLSIY_YkqGLJBKcEXBwDD8tUBA'; // Replace with your Google Maps API key
+  const lat = coords[1]; // Destructure the coordinates
+  const lng = coords[0];
+  const apiKey = "AIzaSyCzCk2eakLSIY_YkqGLJBKcEXBwDD8tUBA"; // Replace with your Google Maps API key
 
   try {
     // Make a request to the Google Maps Reverse Geocoding API
-    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`);
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`
+    );
 
     // Check if the response is OK
     if (!response.ok) {
-      throw new Error('Failed to fetch hill name');
+      throw new Error("Failed to fetch hill name");
     }
 
     // Parse the JSON response
@@ -131,25 +141,27 @@ export async function getHillNameGoogle(coords) {
       const hillName = data.results;
       return hillName;
     } else {
-      throw new Error('No hill name found for the given coordinates');
+      throw new Error("No hill name found for the given coordinates");
     }
   } catch (error) {
-    console.error('Error in findHillName:', error.message);
+    console.error("Error in findHillName:", error.message);
     throw error;
   }
 }
 
 export async function getHillNameNominatim(coords) {
-  const lat  = coords[1]; // Destructure the coordinates
-  const lng = coords[0]
+  const lat = coords[1]; // Destructure the coordinates
+  const lng = coords[0];
 
   try {
     // Nominatim reverse geocoding URL
-    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=14&addressdetails=1`);
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=14&addressdetails=1`
+    );
 
     // Check if the response is OK
     if (!response.ok) {
-      throw new Error('Failed to fetch hill name');
+      throw new Error("Failed to fetch hill name");
     }
 
     // Parse the JSON response
@@ -157,29 +169,31 @@ export async function getHillNameNominatim(coords) {
 
     // Check if the response contains address information
     if (data && data.address) {
-      const hillName = data.address.mountain || data.display_name || 'No hill name found';
+      const hillName = data.address.mountain || data.display_name || "No hill name found";
       return hillName;
     } else {
-      throw new Error('No hill name found for the given coordinates');
+      throw new Error("No hill name found for the given coordinates");
     }
   } catch (error) {
-    console.error('Error in findHillName:', error.message);
+    console.error("Error in findHillName:", error.message);
     throw error;
   }
 }
 
 export async function getHillNameGeonames(coords) {
-  const lat  = coords[1]; // Destructure the coordinates
-  const lng = coords[0]
-  const username = 'viliamnovicky'; // Replace with your GeoNames username
+  const lat = coords[1]; // Destructure the coordinates
+  const lng = coords[0];
+  const username = "viliamnovicky"; // Replace with your GeoNames username
 
   try {
     // GeoNames API URL for reverse geocoding
-    const response = await fetch(`http://api.geonames.org/findNearbyJSON?lat=${lat}&lng=${lng}&username=${username}&featureClass=T`);
+    const response = await fetch(
+      `http://api.geonames.org/findNearbyJSON?lat=${lat}&lng=${lng}&username=${username}&featureClass=T`
+    );
 
     // Check if the response is OK
     if (!response.ok) {
-      throw new Error('Failed to fetch hill name');
+      throw new Error("Failed to fetch hill name");
     }
 
     // Parse the JSON response
@@ -188,14 +202,14 @@ export async function getHillNameGeonames(coords) {
     // Check if any geographic features are returned
     if (data.geonames && data.geonames.length > 0) {
       // Return the first result with a feature name (e.g., mountain, hill)
-      const hillInfo = data.geonames[0]
-      console.log(hillInfo)
+      const hillInfo = data.geonames[0];
+      console.log(hillInfo);
       return hillInfo;
     } else {
-      throw new Error('No hill name found for the given coordinates');
+      throw new Error("No hill name found for the given coordinates");
     }
   } catch (error) {
-    console.error('Error in findHillName:', error.message);
+    console.error("Error in findHillName:", error.message);
     throw error;
   }
 }

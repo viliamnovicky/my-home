@@ -4,6 +4,8 @@ import { FormGroup, Input, Form, Text, Heading, SelectedImage } from "../../ui/F
 import Button, { Buttons } from "../../ui/Button";
 import { useGetHillNameGeonames } from "./useHillsData";
 import { useEffect, useState } from "react";
+import { convertDateToTimestamp } from "../../helpers/convertDateToTimestamp";
+import { Timestamp } from "firebase/firestore";
 
 function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisibility, refetch }) {
   const { register, handleSubmit, reset, formState, setValue } = useForm();
@@ -49,6 +51,11 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
 
   async function onSubmit(data) {
     const image = data.image?.[0];
+    const lastVisitDate = data.lastVisit ? convertDateToTimestamp(data.lastVisit) : null;
+
+    console.log(data.lastVisit)
+    console.log(lastVisitDate);
+    console.log(new Date(data.lastVisit))
 
     const descriptionList = data.description
       ? data.description
@@ -57,24 +64,17 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
           .filter(Boolean) // filter(Boolean) removes empty strings
       : [];
 
-    console.log("Submitting data:", {
-      ...data,
-      image: "sdsdds",
-      altitude: Number(data.altitude),
-      longitude: Number(data.longitude),
-      latitude: Number(data.latitude),
-      description: descriptionList,
-    });
-
     try {
       await addNewHill({
-        ...data,
+        name: data.name,
         altitude: Number(data.altitude),
         coords: { lng: clickCoordinates[0], lat: clickCoordinates[1] },
         description: descriptionList,
         image: image,
         countryName: hillInfo.countryName,
         countryCode: hillInfo.countryCode,
+        tag: `${data.name.toLowerCase()}-${data.altitude}`,
+        lastVisit: new Date(data.lastVisit),
         color:
           data.altitude <= 500
             ? "purple"
@@ -151,6 +151,16 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
           type="number"
           {...register("altitude", {
             required: "Altitude field is required",
+          })}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Input
+          id="lastVisit"
+          placeholder="Last visit"
+          type="date"
+          {...register("lastVisit", {
+            required: "This field is required",
           })}
         />
       </FormGroup>
