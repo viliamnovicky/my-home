@@ -1,6 +1,7 @@
 import { collection, getDocs, doc, getDoc, setDoc, query, where } from "firebase/firestore/lite";
 import { database, storage } from "../utils/firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { resizeImage } from "../helpers/resizeImage";
 
 export async function getHills(userId) {
   try {
@@ -36,12 +37,15 @@ export async function getHill(userId, tag) {
 
 export async function addHill(userId, hillData) {
   console.log("Adding hill with data:", hillData, userId);
+  const hillsCollection = collection(doc(database, "users", userId), "hills");
+
+  // Use the name as the document ID
+  const customId = `${hillData.name.toLowerCase().replace(/\s+/g, "-")}-${hillData.altitude}`;
+
+  let imageUrl = null;  // To track if the image is uploaded
+  let imageRef = null;  // To store reference to the uploaded image
+
   try {
-    const hillsCollection = collection(doc(database, "users", userId), "hills");
-
-    // Use the name as the document ID
-    const customId = `${hillData.name.toLowerCase().replace(/\s+/g, '-')}-${hillData.altitude}`;
-
     // Check if a hill with the same name already exists
     const hillDocRef = doc(hillsCollection, customId);
     const hillDocSnap = await getDoc(hillDocRef);
@@ -50,24 +54,34 @@ export async function addHill(userId, hillData) {
     }
 
     // Check if there's an image and upload it
-    let imageUrl = null;
     if (hillData.image) {
-      const imageRef = ref(storage, `hills/${hillData.name.toLowerCase().replace(/\s+/g, '-')}-${hillData.altitude}`);
+      // Resize and crop the image before uploading
+      const resizedImageBlob = await resizeImage(hillData.image, 1920, 3 / 2, 0.8);
+
+      // Store the image reference
+      imageRef = ref(
+        storage,
+        `hills/${hillData.name.toLowerCase().replace(/\s+/g, "-")}-${hillData.altitude}`
+      );
 
       // Set the content type based on the file type
       const metadata = {
-        contentType: hillData.image.type || "image/jpeg",
+        contentType: "image/jpeg",
       };
 
-      // Upload the image with metadata
-      await uploadBytes(imageRef, hillData.image, metadata);
+      // Upload the resized image with metadata
+      await uploadBytes(imageRef, resizedImageBlob, metadata);
 
       // Get the download URL
       imageUrl = await getDownloadURL(imageRef);
     }
 
     // Set the document with the name as the ID
-    await setDoc(hillDocRef, { ...hillData, image: imageUrl, visits: [{ date: hillData.lastVisit, image: imageUrl }], });
+    await setDoc(hillDocRef, {
+      ...hillData,
+      image: imageUrl,
+      visits: [{ date: hillData.lastVisit, image: imageUrl }],
+    });
 
     console.log("Hill added with custom ID (name):", customId);
     return {
@@ -76,8 +90,20 @@ export async function addHill(userId, hillData) {
       image: imageUrl,
       visits: [{ date: hillData.lastVisit, image: imageUrl }],
     };
+
   } catch (error) {
     console.error("Error adding hill:", error);
+
+    // If there was an error after the image was uploaded, delete the image
+    if (imageRef) {
+      try {
+        await deleteObject(imageRef);
+        console.log("Uploaded image deleted due to error.");
+      } catch (deleteError) {
+        console.error("Error deleting the uploaded image:", deleteError);
+      }
+    }
+
     throw new Error("Something went wrong while adding the hill: " + error.message);
   }
 }

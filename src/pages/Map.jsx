@@ -39,7 +39,7 @@ function Map({ menuVisibility, setMenuVisibility }) {
 
   const color = useLocation().pathname.split("/")[1];
 
-  const { isLoadingHills, hills, errorHills, refetch } = useHillsData();
+  const { isLoadingHills, hills, errorHills, refetchHills } = useHillsData();
   
 
   console.log(hills);
@@ -68,7 +68,7 @@ function Map({ menuVisibility, setMenuVisibility }) {
               setOpenNewHillForm={setOpenNewHillForm}
               clickCoordinates={clickCoordinates}
               setMenuVisibility={setMenuVisibility}
-              refetch={refetch}
+              refetch={refetchHills}
             />
           )}
         </Sidebar>

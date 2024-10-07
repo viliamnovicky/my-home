@@ -168,7 +168,7 @@ function MapCont({
             // Create the main popup
             const mainPopup = new mapboxgl.Popup({ offset: 20 }).setHTML(
               `<h3>${peak.name} (${peak.altitude}m)</h3>
-                <img src="${peak.image}" alt="${peak.name}"></img>
+                
                 <button class="popup-button" id="${peak.id}">details</button>
                 <button class="popup-button" id="${peak.id}-new-visit">log visit</button>`
             );

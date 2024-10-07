@@ -5,7 +5,7 @@ import Button, { Buttons } from "../../ui/Button";
 import { useGetHillNameGeonames } from "./useHillsData";
 import { useEffect, useState } from "react";
 import { convertDateToTimestamp } from "../../helpers/convertDateToTimestamp";
-import { Timestamp } from "firebase/firestore";
+
 
 function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisibility, refetch }) {
   const { register, handleSubmit, reset, formState, setValue } = useForm();
