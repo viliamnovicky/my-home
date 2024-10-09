@@ -31,6 +31,7 @@ export const Heading = styled.h1`
 export const FormGroup = styled.div`
   width: 100%;
   padding-bottom: 2rem;
+  position: relative;
 `;
 
 export const CheckboxGroup = styled.div`
@@ -98,9 +99,6 @@ export const Checkbox = styled.input`
 export const Text = styled.textarea`
   padding: 1rem 1.5rem;
   border-radius: 3rem;
-  outline: none;
-  border: 1px solid var(--grey-100);
-  outline: 5px solid var(--color-primary-50);
   background: rgba(255, 255, 255, 0.8);
   font-size: 1.6rem;
   width: 100%;
@@ -129,8 +127,6 @@ export const Select = styled.select`
 export const Input = styled.input`
   padding: 1rem 1.5rem;
   border-radius: 3rem;
-  outline: none;
-  border: none;
   background: rgba(255, 255, 255, 0.8);
   font-size: 1.6rem;
   width: 100%;
@@ -139,14 +135,12 @@ export const Input = styled.input`
   &::selection {
     color: var(--white-100) !important;
     background-color: var(--grey-400) !important;
-    outline: none;
-  border: none;
+    
   }
 
   &:disabled {
     background: var(--gray-50);
-    border: none;
-    outline: none;
+    
   }
 
   &::placeholder {
@@ -158,18 +152,20 @@ export const Input = styled.input`
     color: transparent;
   }
 
-  &:active,
-  &:focus {
-    outline: none;
-    border: none;
-  }
-
   ${(props) =>
     props.as === "textarea" &&
     css`
       height: 30rem;
     `}
 `;
+
+export const ErrorMessage = styled.p`
+  color: red;
+  opacity: .5;
+  position: absolute;
+  top: 1.1rem;
+  right: 2rem;
+`
 
 export const Label = styled.label`
   padding-left: 1.5rem;

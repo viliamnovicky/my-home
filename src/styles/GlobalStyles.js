@@ -193,6 +193,17 @@ input:disabled {
   color: var(--color-grey-500);
 }
 
+input,
+input:focus, input:active, input:enabled {
+  border: 1px solid transparent;
+  outline: 1px solid transparent;
+}
+textarea,
+textarea:focus, textarea:active, textarea:enabled {
+  border: 1px solid transparent;
+  outline: 1px solid transparent;
+}
+
 /* input:focus,
 button:focus,
 textarea:focus,
