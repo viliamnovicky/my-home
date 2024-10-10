@@ -7,19 +7,16 @@ import { useEffect, useState } from "react";
 import { convertDateToTimestamp } from "../../helpers/convertDateToTimestamp";
 
 function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisibility, refetch }) {
+  
   const { register, handleSubmit, reset, formState, setValue, error } = useForm();
-
-  const [selectedImage, setSelectedImage] = useState(null);
-
   const { errors } = formState;
+
   const { isLoadingHillInfo, hillInfo, errorHillInfo } = useGetHillNameGeonames(clickCoordinates);
   const { addNewHill, isAddingHill, errorAddingHill } = useAddHill("viliamnovicky");
+  
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [name, setName] = useState("");
 
-  const [name, setName] = useState("blabla");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
-  // Use effect to update the hill name state when hillName is fetched
-  // Handle image preview when file input changes
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -38,8 +35,6 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
   useEffect(() => {
     if (hillInfo) {
       setName(hillInfo.name);
-      setLat(hillInfo.lat);
-      setLng(hillInfo.lng);
     }
   }, [hillInfo]);
 
@@ -49,11 +44,6 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
 
   async function onSubmit(data) {
     const image = data.image?.[0];
-    const lastVisitDate = data.lastVisit ? convertDateToTimestamp(data.lastVisit) : null;
-
-    console.log(data.lastVisit);
-    console.log(lastVisitDate);
-    console.log(new Date(data.lastVisit));
 
     const descriptionList = data.description
       ? data.description
@@ -67,12 +57,12 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
         name: data.name,
         altitude: Number(data.altitude),
         coords: { lng: clickCoordinates[0], lat: clickCoordinates[1] },
-        description: descriptionList,
+        description: descriptionList ? descriptionList : [],
         image: image,
         countryName: hillInfo.countryName,
         countryCode: hillInfo.countryCode,
         tag: `${data.name.toLowerCase()}-${data.altitude}`,
-        lastVisit: new Date(data.lastVisit),
+        lastVisit: data.lastVisit ? new Date(data.lastVisit) : null,
         color:
           data.altitude <= 500
             ? "purple"
@@ -89,10 +79,10 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
             : data.altitude > 3000 && data.altitude <= 3500
             ? "black"
             : "white",
-      }); // Use the hook to add a new hill
-      reset(); // Reset the form after successful submission
-      handleCloseForm(); // Close the form
-      () => refetch();
+      }); 
+      reset(); 
+      handleCloseForm();
+      refetch();
     } catch (error) {
       console.error("Error adding hill:", error);
     }
@@ -118,6 +108,7 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
           onChange={(e) => setName(e.target.value)}
           placeholder={errors?.name ? "" : "Name"}
           value={name}
+          border = {errors?.name && "red"}
         />
         {errors?.name?.message && <ErrorMessage>{errors.name.message}</ErrorMessage>}
       </FormGroup>
@@ -148,6 +139,7 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
           id="altitude"
           placeholder={errors?.altitude ? "" : "Altitude"}
           type="number"
+          border = {errors?.altitude && "red"}
           {...register("altitude", {
             required: "Altitude field is required",
           })}

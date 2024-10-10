@@ -14,7 +14,6 @@ export const H1 = styled.h1`
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
-    padding: 2rem 0;
     letter-spacing: .5rem;
     display: flex;
     justify-content: center;
@@ -39,7 +38,7 @@ export const H3 = styled.h3`
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
-    padding: 2rem 0;
+    padding: 1rem 0;
     letter-spacing: .5rem;
     display: flex;
     justify-content: center;
