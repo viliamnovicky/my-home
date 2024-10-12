@@ -1,6 +1,18 @@
-import { collection, getDocs, doc, getDoc, setDoc, query, where } from "firebase/firestore/lite";
-import { database, storage } from "../utils/firebase";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+  query,
+  where,
+  arrayUnion,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore/lite";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+
+import { database, storage } from "../utils/firebase";
 import { resizeImage } from "../helpers/resizeImage";
 
 export async function getHills(userId) {
@@ -42,8 +54,8 @@ export async function addHill(userId, hillData) {
   // Use the name as the document ID
   const customId = `${hillData.name.toLowerCase().replace(/\s+/g, "-")}-${hillData.altitude}`;
 
-  let imageUrl = null;  // To track if the image is uploaded
-  let imageRef = null;  // To store reference to the uploaded image
+  let imageUrl = null; // To track if the image is uploaded
+  let imageRef = null; // To store reference to the uploaded image
 
   try {
     // Check if a hill with the same name already exists
@@ -61,7 +73,7 @@ export async function addHill(userId, hillData) {
       // Store the image reference
       imageRef = ref(
         storage,
-        `hills/${hillData.name.toLowerCase().replace(/\s+/g, "-")}-${hillData.altitude}`
+        `hills/${hillData.name.toLowerCase().replace(/\s+/g, "-")}-${hillData.altitude}/${hillData.name.toLowerCase().replace(/\s+/g, "-")}-${hillData.altitude}`
       );
 
       // Set the content type based on the file type
@@ -90,7 +102,6 @@ export async function addHill(userId, hillData) {
       image: imageUrl,
       visits: [{ date: hillData.lastVisit, image: imageUrl }],
     };
-
   } catch (error) {
     console.error("Error adding hill:", error);
 
@@ -105,6 +116,82 @@ export async function addHill(userId, hillData) {
     }
 
     throw new Error("Something went wrong while adding the hill: " + error.message);
+  }
+}
+
+export async function addVisit(userId, tag, visitData) {
+  console.log("Adding visit with data:", visitData);
+
+  const hillsCollection = collection(doc(database, "users", userId), "hills");
+
+  // Query to get the specific hill by tag
+  const q = query(hillsCollection, where("tag", "==", tag));
+  const querySnapshot = await getDocs(q);
+
+  // Check if the query returned any results
+  if (querySnapshot.empty) {
+    throw new Error("Hill with the specified tag does not exist");
+  }
+
+  // Get the first document snapshot from the query results
+  const hillDocSnapshot = querySnapshot.docs[0]; // The document snapshot
+
+  // Extract the document data and reference separately
+  const hillData = hillDocSnapshot.data(); // Document data (as an object)
+  const hillDocRef = hillDocSnapshot.ref; // Document reference
+
+  let imageUrl = null;
+  let imageRef = null;
+
+  try {
+    // Check if a visit image is provided and upload it
+    if (visitData.image) {
+      // Resize and crop the image before uploading (assuming resizeImage is defined elsewhere)
+      const resizedImageBlob = await resizeImage(visitData.image, 1920, 3 / 2, 0.8);
+
+      // Store the image reference
+      imageRef = ref(storage, `hills/${tag}/visits/${new Date().getTime()}-visit-image`);
+
+      // Set the content type based on the file type
+      const metadata = {
+        contentType: "image/jpeg",
+      };
+
+      // Upload the resized image with metadata
+      await uploadBytes(imageRef, resizedImageBlob, metadata);
+
+      // Get the download URL for the uploaded visit image
+      imageUrl = await getDownloadURL(imageRef);
+    }
+
+    // Create the visit object
+    const newVisit = {
+      date: Timestamp.fromDate(new Date(visitData.date)), // Convert to Firestore timestamp
+      image: imageUrl || null, // Image URL if uploaded
+      description: visitData.description || "", // Optional visit description
+    };
+
+    // Add the new visit to the visits array using arrayUnion
+    await updateDoc(hillDocRef, {
+      visits: arrayUnion(newVisit), // Update the visits array
+    });
+
+    console.log("Visit added successfully to hill:", tag);
+    return newVisit;
+  } catch (error) {
+    console.error("Error adding visit:", error);
+
+    // If there was an error after the image was uploaded, delete the image
+    if (imageRef) {
+      try {
+        await deleteObject(imageRef);
+        console.log("Uploaded visit image deleted due to error.");
+      } catch (deleteError) {
+        console.error("Error deleting the uploaded visit image:", deleteError);
+      }
+    }
+
+    throw new Error("Something went wrong while adding the visit: " + error.message);
   }
 }
 

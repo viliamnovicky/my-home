@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { SlideImageHeading, SlideImagesCont } from "../../ui/Images";
 import Button, { Buttons } from "../../ui/Button";
 import { formatTimestampToDate } from "../../helpers/convertDateToTimestamp";
+import AddVisitForm from "./AddVisitForm";
 
 const StyledHillModal = styled.div`
   overflow-y: scroll;
@@ -23,7 +24,7 @@ const Image = styled.img`
 const InfoCont = styled.div`
   height: auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 3fr 1fr 3fr;
   gap: 1rem;
   padding-left: 1rem;
 `;
@@ -71,8 +72,8 @@ function HillModal() {
     <StyledHillModal>
       <H1>{hillData && hillData.name}</H1>
       <InfoCont>
-        <Image src={hillData.image ? hillData.image : ""}>
-        </Image>
+        <Image src={hillData.image ? hillData.image : ""} />
+        <AddVisitForm></AddVisitForm>
         <Paragraphs>
           <H5>{hillData.description ? hillData.description[0] : "Another point on the map"}</H5>
           <Paragraph color="dark">
@@ -98,7 +99,7 @@ function HillModal() {
           {hillData.visits &&
             hillData.visits.map((visit) => (
               <>
-              <SlideImageHeading>{formatTimestampToDate(visit.date)}</SlideImageHeading>
+                <SlideImageHeading>{formatTimestampToDate(visit.date)}</SlideImageHeading>
                 <Image src={visit.image} key={visit.image} alt={visit.image} />
                 <Buttons key={visit.image + "buttons"}>
                   <Button

@@ -7,11 +7,21 @@ const borders = {
     outline: 1px solid var(--red-400) !important;
   `
 }
+const colors = {
+  red: css`
+    color: var(--red-400) !important;
+  `,
+  bg_grey: css`
+    background: var(--grey-50) !important;
+  `
+}
 
 export const Form = styled.form`
+border-radius: 2rem;
   background: transparent;
   padding: 2rem;
   width: 100%;
+  ${(props) => colors[props.bg]}
 
   .inactive {
     cursor: not-allowed;
@@ -71,6 +81,7 @@ export const CheckboxGroup = styled.div`
       -ms-user-select: none;
       padding-left: 2rem;
       font-size: 1.4rem;
+      $
 
       &:before {
         width: 1.1rem;
@@ -182,6 +193,7 @@ export const Label = styled.label`
   font-weight: 500;
   position: relative;
   transition: all 0.2s;
+  ${(props) => colors[props.color]}
 
   /* Only hide label when input is not focused and has no value */
   input:placeholder-shown + & {

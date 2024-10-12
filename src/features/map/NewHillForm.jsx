@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useAddHill } from "./useAddHill";
-import { FormGroup, Input, Form, Text, Heading, SelectedImage, ErrorMessage } from "../../ui/Form";
+import { FormGroup, Input, Form, Text, Heading, SelectedImage, ErrorMessage, Label } from "../../ui/Form";
 import Button, { Buttons } from "../../ui/Button";
 import { useGetHillNameGeonames } from "./useHillsData";
 import { useEffect, useState } from "react";
@@ -106,11 +106,12 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
           })}
           id="name"
           onChange={(e) => setName(e.target.value)}
-          placeholder={errors?.name ? "" : "Name"}
+          placeholder="Name"
           value={name}
           border = {errors?.name && "red"}
         />
-        {errors?.name?.message && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+        <Label color={errors?.name ? "red" : ""}>{errors?.name ? "Name   *Required" : "Name"}</Label>
+
       </FormGroup>
       {/* <FormGroup>
         <Input
@@ -137,35 +138,38 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
       <FormGroup>
         <Input
           id="altitude"
-          placeholder={errors?.altitude ? "" : "Altitude"}
+          placeholder="Altitude"
           type="number"
           border = {errors?.altitude && "red"}
           {...register("altitude", {
             required: "Altitude field is required",
           })}
         />
-        {errors?.altitude?.message && <ErrorMessage>{errors.altitude.message}</ErrorMessage>}
+        <Label for="altitude" color={errors?.altitude ? "red" : ""}>{errors?.altitude ? "Altitude   *Required" : "Altitude"}</Label>
       </FormGroup>
       <FormGroup>
         <Input
           id="lastVisit"
           placeholder="Last visit"
+          border = {errors?.altitude && "red"}
           type="date"
           {...register("lastVisit", {
-            // required: "This field is required",
+            required: "This field is required",
           })}
           />
+          <Label for="altitude" color={errors?.lastVisit ? "red" : ""}>{errors?.lastVisit ? "Last visit   *Required" : "Last visit"}</Label>
       </FormGroup>
       <FormGroup>
         <Text
           id="description"
           rows="6"
-          placeholder={errors?.description ? "" : "Description"}
+          border = {errors?.altitude && "red"}
+          placeholder="Description"
           {...register("description", { 
-            // required: "Description field is required" 
+            required: "Description field is required" 
           })}
           />
-          {errors?.description?.message && <ErrorMessage>{errors.description.message}</ErrorMessage>}
+          <Label for="altitude" color={errors?.description ? "red" : ""}>{errors?.description ? "Description   *Required" : "Description"}</Label>
       </FormGroup>
       <FormGroup>
         <Input
@@ -173,13 +177,14 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
           type="file"
           onChange={(e) => handleImageChange(e)}
           {...register("image", {
-            // required: "Image is required",
+            required: "Image is required",
             onChange: (event) => {
               handleImageChange(event);
             },
           })}
         />
         {selectedImage && <SelectedImage src={selectedImage} alt="Selected" />}
+        <Label color={errors?.image ? "red" : ""}>{errors?.image ? "Image *Required" : "Image"}</Label>
       </FormGroup>
       <Buttons>
         <Button size="medium" color={color}>
