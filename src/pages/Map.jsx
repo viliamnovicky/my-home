@@ -39,7 +39,7 @@ function Map({ menuVisibility, setMenuVisibility }) {
 
   const color = useLocation().pathname.split("/")[1];
 
-  const { isLoadingHills, hills, errorHills, refetchHills } = useHillsData();
+  const { isLoadingHills, hills, errorHills, refetchHills } = useHillsData("viliamnovicky");
   
 
   console.log(hills);

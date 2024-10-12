@@ -5,36 +5,38 @@ const borders = {
   red: css`
     border: 1px solid var(--red-400) !important;
     outline: 1px solid var(--red-400) !important;
-  `
-}
+  `,
+};
 const colors = {
   red: css`
     color: var(--red-400) !important;
   `,
   bg_grey: css`
     background: var(--grey-50) !important;
-  `
-}
+  `,
+};
 
 export const Form = styled.form`
-border-radius: 2rem;
-  background: transparent;
+  border-radius: 2rem;
   padding: 2rem;
+  padding-top: 0;
+  position: relative;
   width: 100%;
   ${(props) => colors[props.bg]}
+  //overflow: hidden;
 
   .inactive {
     cursor: not-allowed;
   }
 
   input::file-selector-button {
-  border-radius: 1rem;
-  ${(props) => buttonColors[props.color]}
-  border: none;
-  padding: .8rem 1.5rem;
-  cursor: pointer;
-  transition: all 0.3s;
-}
+    border-radius: 1rem;
+    ${(props) => buttonColors[props.color]}
+    border: none;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
 `;
 
 export const Heading = styled.h1`
@@ -81,9 +83,7 @@ export const CheckboxGroup = styled.div`
       -ms-user-select: none;
       padding-left: 2rem;
       font-size: 1.4rem;
-      $
-
-      &:before {
+      $ &:before {
         width: 1.1rem;
         height: 1.1rem;
         background: var(--white);
@@ -148,23 +148,20 @@ export const Input = styled.input`
   background: rgba(255, 255, 255, 0.8);
   font-size: 1.6rem;
   width: 100%;
-  transition: all .2s;
+  transition: all 0.2s;
   ${(props) => borders[props.border]}
-
 
   &::selection {
     color: var(--white-100) !important;
     background-color: var(--grey-400) !important;
-    
   }
 
   &:disabled {
     background: var(--gray-50);
-    
   }
 
   &::placeholder {
-    transition: all .2s;
+    transition: all 0.2s;
   }
 
   /* Ensure label is visible when input is focused */
@@ -181,11 +178,11 @@ export const Input = styled.input`
 
 export const ErrorMessage = styled.p`
   color: red;
-  opacity: .5;
+  opacity: 0.5;
   position: absolute;
   top: 1.1rem;
   right: 2rem;
-`
+`;
 
 export const Label = styled.label`
   padding-left: 1.5rem;

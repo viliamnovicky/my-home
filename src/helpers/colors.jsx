@@ -57,9 +57,17 @@ export const buttonColors = {
       background: var(--grey-400) !important;
     }
   `,
+  show_image: css`
+    background: rgba(0, 0, 0, .2) !important;
+    color: var(--grey-50) !important;
+
+    &:hover {
+      background: rgba(0, 0, 0, .4) !important;
+    }
+  `,
   neutral_inverse: css`
     background: var(--grey-50) !important;
-    color: var(--grey-80) !important;
+    color: var(--grey-800) !important;
 
     &:hover {
       background: var(--grey-100) !important;

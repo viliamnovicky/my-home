@@ -3,15 +3,15 @@ import { FormGroup, Input, SelectedImage, Form } from "../../ui/Form";
 import { useState } from "react";
 import { useAddVisit } from "./useAddVisit";
 import Button, { Buttons } from "../../ui/Button";
+import { H5 } from "../../ui/Heading";
 
-function AddVisitForm() {
+function AddVisitForm({ onClose }) {
   const queryParams = new URLSearchParams(location.search);
   const tag = queryParams.get("hill");
 
-  const { addNewVisit, isAddingVisit, errorAddingVisit } = useAddVisit("viliamnovicky", tag)
+  const { addNewVisit, isAddingVisit, errorAddingVisit } = useAddVisit("viliamnovicky", tag);
   const { register, handleSubmit, reset, formState, setValue, error } = useForm();
   const { errors } = formState;
-
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -26,16 +26,17 @@ function AddVisitForm() {
   };
 
   async function onSubmit(data) {
-    const image = data.image?.[0]
+    const image = data.image?.[0];
 
     try {
       await addNewVisit({
         ...data,
-        image: image
-      })
-    } catch(error) {
-      console.log(error)
+        image: image,
+      });
+    } catch (error) {
+      console.log(error);
     }
+    onClose(false)
   }
 
   function onError(errors) {
@@ -43,7 +44,8 @@ function AddVisitForm() {
   }
 
   return (
-    <Form onSubmit={(handleSubmit(onSubmit, onError))} bg="bg_grey">
+    <Form onSubmit={handleSubmit(onSubmit, onError)} bg="bg_grey">
+      <H5>New visit</H5>
       <FormGroup>
         <Input
           id="date"
@@ -70,9 +72,13 @@ function AddVisitForm() {
         />
         {selectedImage && <SelectedImage src={selectedImage} alt="Selected" />}
       </FormGroup>
-      <Buttons>
-        <Button size="small" color="map">submit</Button>
-        <Button size="small" color="decline">cancel</Button>
+      <Buttons justify="center" position="absolute_bottom">
+        <Button size="small" color="map">
+          submit
+        </Button>
+        <Button size="small" color="decline" onClick={() => onClose(false)}>
+          cancel
+        </Button>
       </Buttons>
     </Form>
   );

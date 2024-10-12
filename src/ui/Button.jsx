@@ -51,11 +51,11 @@ const uses = {
     z-index: 5 !important;
   `,
   close: css`
-  position: absolute;
+    position: absolute;
     right: 2rem;
     top: 2rem;
     border-radius: 50% !important;
-  `
+  `,
 };
 
 const menu_states = {
@@ -80,6 +80,30 @@ const menu_states = {
   menu_hidden: css`
     left: 3rem;
     top: 3rem;
+  `,
+};
+
+const bgs = {
+  white: css`
+    background: var(--white);
+  `,
+};
+
+const justify = {
+  center: css`
+    justify-content: center !important;
+    align-items: center;
+    padding: 1rem;
+  `,
+};
+
+const positions = {
+  absolute_bottom: css`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    //background: var(--grey-50);
+    width: 100%;
   `,
 };
 
@@ -114,7 +138,22 @@ export const Buttons = styled.div`
   justify-content: space-between;
   margin: auto;
   align-items: center;
-  padding-bottom: 2rem;
+  ${(props) => justify[props.justify]}
+  ${(props) => bgs[props.bg]}
+  ${(props) => positions[props.position]}
+`;
+
+export const ShowImageButton = styled.button`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8rem;
+  height: 8rem;
+  transition: all 0.2s;
+  border: none;
+  border-radius: 50%;
+  ${(props) => buttonColors[props.color]};
 `;
 
 function Button({ size, children, onClick, color, use, state }) {

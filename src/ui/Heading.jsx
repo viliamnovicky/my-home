@@ -18,6 +18,7 @@ export const H1 = styled.h1`
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 2rem;
 
     span{
         font-weight: 100 !important;
@@ -43,6 +44,7 @@ export const H3 = styled.h3`
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 2rem;
 `
 
 export const H5 = styled.h5`
@@ -50,11 +52,11 @@ export const H5 = styled.h5`
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
-    padding: 2rem 0;
     letter-spacing: .5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2rem;
 `
 
 export const Paragraph = styled.p`
