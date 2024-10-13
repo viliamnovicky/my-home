@@ -10,32 +10,33 @@ import { formatTimestampToDate } from "../../helpers/convertDateToTimestamp";
 import AddVisitForm from "./AddVisitForm";
 import { useState } from "react";
 
-const grids = {
-  tree: css`
-    grid-template-columns: 3fr 1fr 3fr;
-  `,
-  two: css`
-    grid-template-columns: 1fr 1fr;
-  `,
-};
 
 const StyledHillModal = styled.div`
   overflow-y: scroll;
+  overflow-x: hidden;
   width: 100%;
   height: 100%;
-  padding: 1rem;
-  padding-right: .5rem;
+
+  @media (max-width: 1365px) {
+    flex-direction: column;
+  }
 `;
 
 const InfoCont = styled.div`
   display: flex;
   gap: 1rem;
-  padding-left: 1rem;
+  padding: 2rem;
   transition: all, 0.2s;
   position: relative;
   height: 40rem;
   justify-content: space-between;
   transition: all .2s;
+
+  @media (max-width: 1365px) {
+    padding: 1rem;
+    flex-direction: column;
+    height: auto;
+  }
 `;
 
 const Paragraphs = styled.div`
@@ -45,6 +46,10 @@ const Paragraphs = styled.div`
   border-radius: 2rem;
   min-width: 50rem;
   align-self: right;
+
+  @media (max-width: 1365px) {
+    min-width: 100%;
+  }
 `;
 
 function HillModal() {

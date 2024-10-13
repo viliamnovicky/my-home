@@ -33,13 +33,15 @@ const StyledHeader = styled.div`
   justify-content: ${(props) => (props.color === "login" ? "flex-end" : "space-between")};
   padding: 0 4rem;
   ${(props) => colors[props.color]}
+  position: relative;
+  z-index: 2;
 `;
 
 function Header({ children, color }) {
   return (
     <StyledHeader color={color}>
       {color !== "login" && <Logo location={color} />}
-      {color !== "login" && <Searchbar placeholder={`search in ${color} section`} />}
+      {/* {color !== "login" && <Searchbar placeholder={`search in ${color} section`} />} */}
       {children}
     </StyledHeader>
   );

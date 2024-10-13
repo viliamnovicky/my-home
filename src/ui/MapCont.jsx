@@ -21,6 +21,8 @@ const StyledMapCont = styled.div`
     height: 50px;
     border-radius: 50%;
     cursor: pointer;
+    position: relative;
+    z-index: 1;
   }
 
   .mapboxgl-popup {
@@ -49,11 +51,6 @@ const StyledMapCont = styled.div`
     align-items: center;
     gap: 1rem;
 
-    img {
-      width: 2rem;
-      margin: 0;
-      padding: 0;
-    }
   }
 
   .purple {

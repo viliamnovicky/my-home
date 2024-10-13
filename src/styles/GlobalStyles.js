@@ -246,8 +246,8 @@ img {
 }
 
 *::-webkit-scrollbar {
-  width: 1.6rem;
-  background: white;
+  width: 0rem;
+  background: transparent;
   border-radius: 2rem;
 }
  

@@ -24,6 +24,11 @@ const Inner = styled.div`
     border-radius: 2rem;
     transition: all .2s;
     overflow: hidden;
+
+    @media (max-width: 1365px) {
+    width: calc(100vw - 1rem);
+    height: calc(100vh - 1rem);
+  }
 `
 
 function Modal({children, onClose}) {

@@ -20,6 +20,11 @@ export const H1 = styled.h1`
     align-items: center;
     padding: 0 2rem;
 
+    @media (max-width: 1365px) {
+    font-size: 3rem;
+    padding: 2rem 2rem;
+  }
+
     span{
         font-weight: 100 !important;
     }
@@ -70,6 +75,10 @@ export const Paragraph = styled.p`
   min-width: 40rem;
   height: 5rem;
   ${(props) => colors[props.color]}
+
+  @media (max-width: 1365px) {
+    min-width: 100%;
+  }
 
   span {
     font-weight: 800;

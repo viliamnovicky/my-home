@@ -104,6 +104,10 @@ const positions = {
     left: 0;
     //background: var(--grey-50);
     width: 100%;
+
+    @media (max-width: 1365px) {
+    position: relative;
+  }
   `,
 };
 

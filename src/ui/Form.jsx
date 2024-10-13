@@ -83,7 +83,7 @@ export const CheckboxGroup = styled.div`
       -ms-user-select: none;
       padding-left: 2rem;
       font-size: 1.4rem;
-      $ &:before {
+      &:before {
         width: 1.1rem;
         height: 1.1rem;
         background: var(--white);
