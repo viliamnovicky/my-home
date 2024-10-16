@@ -96,6 +96,18 @@ function MapCont({
     setMenuVisibility(true);
   }
 
+  function getOffset() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+  
+    if (screenWidth <= 1366) {
+      // On smaller screens, adjust the offset to center the marker correctly
+      return [0, -(screenHeight / 4)]; // Offset by a quarter of the screen height upwards
+    }
+  
+    return [0, 0]; // No offset on larger screens
+  }
+
   mapboxgl.accessToken =
     "pk.eyJ1IjoidmlsaWFtbm92aWNreSIsImEiOiJjbGVlazBvcWYwaHVjM3ZtajZveGoxM244In0.hnpQA34MhL9qxzfDOcUd2g";
   const mapContainer = useRef(null);
@@ -132,6 +144,7 @@ function MapCont({
         center: [coords.lng, coords.lat],
         zoom: map.current.getZoom(), // Keep the current zoom level
         speed: 0.7, // Optional: speed of the fly-to effect, default is 1.2
+        offset: getOffset(), // Adjust center with custom offset
       });
 
       // Check if the click was directly on the map (not on a marker or any other overlay)

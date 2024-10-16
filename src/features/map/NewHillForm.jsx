@@ -80,9 +80,9 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
             ? "black"
             : "white",
       }); 
+      refetch();
       reset(); 
       handleCloseForm();
-      refetch();
     } catch (error) {
       console.error("Error adding hill:", error);
     }
