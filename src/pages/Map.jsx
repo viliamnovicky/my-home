@@ -10,6 +10,8 @@ import { useLocation } from "react-router";
 import Modal from "../ui/Modal";
 import HillModal from "../features/map/HillModal";
 import { useUpdateQuery, useDeleteQuery } from "../helpers/updateQuery";
+import Spinner from "../ui/Spinner";
+import { useAddHill } from "../features/map/useAddHill";
 
 
 const StyledMap = styled.div`
@@ -39,8 +41,9 @@ function Map({ menuVisibility, setMenuVisibility }) {
 
   const color = useLocation().pathname.split("/")[1];
 
-  const { isLoadingHills, hills, errorHills, refetchHills } = useHillsData("viliamnovicky");
-  
+  const { isLoadingHills, hills, errorHills } = useHillsData("viliamnovicky");
+  const { addNewHill, isAddingHill, errorAddingHill } = useAddHill("viliamnovicky");
+
 
   console.log(hills);
 
@@ -58,6 +61,8 @@ function Map({ menuVisibility, setMenuVisibility }) {
     deleteQuery("hill")
   }
 
+  if (isLoadingHills) return <Spinner/>
+
   if (hills) {
     return (
       <>
@@ -68,10 +73,13 @@ function Map({ menuVisibility, setMenuVisibility }) {
               setOpenNewHillForm={setOpenNewHillForm}
               clickCoordinates={clickCoordinates}
               setMenuVisibility={setMenuVisibility}
-              refetch={refetchHills}
+              addNewHill={addNewHill}
+              isAddingHill={isAddingHill}
+              errorAddingHill={errorAddingHill}
             />
           )}
         </Sidebar>
+        {isAddingHill && <Spinner/>}
         <StyledMap setMenuVisibility={setMenuVisibility}>
           <Buttons>
             <Button
@@ -92,6 +100,7 @@ function Map({ menuVisibility, setMenuVisibility }) {
           <MapCont
             onShowDetails={handleOpenHillDetails}
             zoom={zoom}
+            isLoadingHills={isLoadingHills}
             setClickCoordinates={setClickCoordinates}
             hills={hills}
             setOpenNewHillForm={setOpenNewHillForm}

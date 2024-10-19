@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { createRoot } from "react-dom/client";
 import { getFlagEmoji } from "../helpers/getFlagEmoji";
+import Spinner from "./Spinner";
 
 const StyledMapCont = styled.div`
   height: 100%;
@@ -50,7 +51,6 @@ const StyledMapCont = styled.div`
     justify-content: center;
     align-items: center;
     gap: 1rem;
-
   }
 
   .purple {
@@ -86,6 +86,7 @@ const StyledMapCont = styled.div`
 function MapCont({
   zoom,
   setClickCoordinates,
+  isLoadingHills,
   hills,
   setOpenNewHillForm,
   setMenuVisibility,
@@ -99,12 +100,12 @@ function MapCont({
   function getOffset() {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-  
+
     if (screenWidth <= 1366) {
       // On smaller screens, adjust the offset to center the marker correctly
       return [0, -(screenHeight / 4)]; // Offset by a quarter of the screen height upwards
     }
-  
+
     return [0, 0]; // No offset on larger screens
   }
 
@@ -211,7 +212,9 @@ function MapCont({
             });
 
             mainPopup.on("open", () => {
-              document.getElementById(peak.id).addEventListener("click", () => onShowDetails(peak.tag));
+              document
+                .getElementById(peak.id)
+                .addEventListener("click", () => onShowDetails(peak.tag));
             });
           }
         });
@@ -234,7 +237,7 @@ function MapCont({
     }
   }, [zoom]); // Update zoom level when `zoom` prop changes
 
-  return <StyledMapCont ref={mapContainer} className="map-container" />;
+  return <StyledMapCont ref={mapContainer} className="map-container"/>
 }
 
 export default MapCont;

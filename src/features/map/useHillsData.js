@@ -6,12 +6,11 @@ export function useHillsData(userId) {
     isLoading: isLoadingHills,
     data: hills,
     error: errorHills,
-    refetch: refetchHills
   } = useQuery({
     queryKey: ["hills", userId],
     queryFn: () => getHills(userId),
   });
-  return { isLoadingHills, hills, errorHills, refetchHills };
+  return { isLoadingHills, hills, errorHills };
 }
 
 export function useGetHillData(userId, tag) {
@@ -19,14 +18,13 @@ export function useGetHillData(userId, tag) {
     isLoading: isLoadingHill,
     data: hillData,
     error: errorHill,
-    refetch: refetchHill
   } = useQuery({
     queryKey: ["hill", userId, tag], // Unique query key to cache based on userId and tag
     queryFn: () => getHill(userId, tag),
     enabled: !!userId && !!tag, // Only run the query if userId and tag are provided
   });
 
-  return { isLoadingHill, hillData, errorHill, refetchHill };
+  return { isLoadingHill, hillData, errorHill };
 }
 
 

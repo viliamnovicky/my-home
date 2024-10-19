@@ -11,9 +11,10 @@ export function useAddHill(userId) {
     error: errorAddingHill,
   } = useMutation({
     mutationFn: (hillData) => addHill(userId, hillData),
-    onSuccess: () => {
+    onSuccess: (newHill) => {
       toast.success("Hill added successfully!");
-      queryClient.invalidateQueries(["hills", userId]); // Assuming you are querying hills by hillId
+      queryClient.setQueryData(['hills', userId], (oldData) => [...oldData, newHill]) // Assuming you are querying hills by hillId
+      //window.location.reload()
     },
     onError: (error) => {
       toast.error(`Error: ${error.message}`);

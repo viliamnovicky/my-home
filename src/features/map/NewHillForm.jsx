@@ -4,18 +4,17 @@ import { FormGroup, Input, Form, Text, Heading, SelectedImage, ErrorMessage, Lab
 import Button, { Buttons } from "../../ui/Button";
 import { useGetHillNameGeonames } from "./useHillsData";
 import { useEffect, useState } from "react";
-import { convertDateToTimestamp } from "../../helpers/convertDateToTimestamp";
+import Spinner from "../../ui/Spinner";
 
-function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisibility, refetch }) {
+function NewHillForm({ addNewHill, isAddingHill, errorAddingHill, setOpenNewHillForm, clickCoordinates, color, setMenuVisibility }) {
   
   const { register, handleSubmit, reset, formState, setValue, error } = useForm();
   const { errors } = formState;
 
-  const { isLoadingHillInfo, hillInfo, errorHillInfo } = useGetHillNameGeonames(clickCoordinates);
-  const { addNewHill, isAddingHill, errorAddingHill } = useAddHill("viliamnovicky");
-  
+  const { isLoadingHillInfo, hillInfo, errorHillInfo } = useGetHillNameGeonames(clickCoordinates);  
   const [selectedImage, setSelectedImage] = useState(null);
   const [name, setName] = useState("");
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -80,7 +79,6 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
             ? "black"
             : "white",
       }); 
-      refetch();
       reset(); 
       handleCloseForm();
     } catch (error) {
@@ -91,6 +89,8 @@ function NewHillForm({ setOpenNewHillForm, clickCoordinates, color, setMenuVisib
   function onError(errors) {
     console.log(errors);
   }
+
+  if (isAddingHill) return <Spinner/>
 
   return (
     <Form
