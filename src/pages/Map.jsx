@@ -44,7 +44,6 @@ function Map({ menuVisibility, setMenuVisibility }) {
   const { isLoadingHills, hills, errorHills } = useHillsData("viliamnovicky");
   const { addNewHill, isAddingHill, errorAddingHill } = useAddHill("viliamnovicky");
 
-
   console.log(hills);
 
   const [zoom, setZoom] = useState(9);
@@ -61,7 +60,7 @@ function Map({ menuVisibility, setMenuVisibility }) {
     deleteQuery("hill")
   }
 
-  if (isLoadingHills) return <Spinner/>
+  if (isLoadingHills || isAddingHill) return <Spinner/>
 
   if (hills) {
     return (
@@ -79,7 +78,7 @@ function Map({ menuVisibility, setMenuVisibility }) {
             />
           )}
         </Sidebar>
-        {isAddingHill && <Spinner/>}
+        {isAddingHill && <Spinner color="map" location="map"/>}
         <StyledMap setMenuVisibility={setMenuVisibility}>
           <Buttons>
             <Button

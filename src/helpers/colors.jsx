@@ -74,3 +74,22 @@ export const buttonColors = {
     }
   `,
 };
+
+export const logoColors = {
+  home: css`
+    color: var(--grey-700);
+    background: var(--grey-50);
+  `,
+  food: css`
+  color: var(--food-700);
+  background: var(--food-50)
+  `,
+  coffee: css`
+  color: var(--coffee-700);
+  background: var(--coffee-50)
+  `,
+  map: css`
+  color: var(--map-700);
+  background: var(--map-50)
+  `,
+};

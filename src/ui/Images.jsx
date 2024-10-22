@@ -37,11 +37,13 @@ export const SlideImage = styled.div`
   position: relative;
   overflow: hidden;
   border-radius: 2rem;
-  flex: 0 0 auto;
+  margin-right: 2rem;
 
   @media (max-width: 1365px) {
-    width: 60vw !important;
-    height: 40vw
+    width: 96vw !important;
+    height: 64vw;
+    margin: auto;
+    margin-bottom: 2rem;
   }
 
   button {

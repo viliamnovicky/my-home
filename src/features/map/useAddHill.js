@@ -1,19 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addHill } from "../../services/apiHills";
 import toast from "react-hot-toast";
-//import toast from "react-hot-toast";
 
 export function useAddHill(userId) {
   const queryClient = useQueryClient();
   const {
-    mutate: addNewHill,
     isLoading: isAddingHill,
+    mutate: addNewHill,
     error: errorAddingHill,
   } = useMutation({
     mutationFn: (hillData) => addHill(userId, hillData),
-    onSuccess: (newHill) => {
+    onSuccess: () => {
       toast.success("Hill added successfully!");
-      queryClient.setQueryData(['hills', userId], (oldData) => [...oldData, newHill]) // Assuming you are querying hills by hillId
+      queryClient.setQueryData({ queryKey: ["hills", userId] }); // Assuming you are querying hills by hillId
       //window.location.reload()
     },
     onError: (error) => {

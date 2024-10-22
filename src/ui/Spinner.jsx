@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { GiMountaintop } from "react-icons/gi";
 import hill from "../../public/icons/hill.png";
+import { logoColors } from "../helpers/colors";
+
+import { FaHome, FaMapMarkedAlt } from "react-icons/fa";
+import { FaBowlFood } from "react-icons/fa6";
+import { PiCoffeeBeanFill } from "react-icons/pi";
 
 const SpinnerContainer = styled.div`
   position: absolute;
@@ -24,6 +29,7 @@ const SpinnerOuter = styled.div`
   animation: spin 1s infinite linear;
   width: 100%;
   height: 100%;
+  ${(props) => logoColors[props.color]}
 
   @keyframes spin {
     from {
@@ -62,19 +68,22 @@ const SpinnerInner = styled.div`
   align-items: center;
   animation: opacity-spinner 2s infinite linear;
 
-  img {
-    width: 70%;
-    background: rgba(255, 255, 255, 0.5);
+  svg {
+    ${(props) => logoColors[props.color]}
     border-radius: 50%;
+    padding: 1rem;
   }
 `;
 
-function Spinner() {
+function Spinner({color, location}) {
   return (
     <SpinnerContainer>
-      <SpinnerOuter />
-      <SpinnerInner>
-        <img src={hill}></img>
+      <SpinnerOuter/>
+      <SpinnerInner color={color}>
+      {location === "home" && <FaHome size="60"/>}
+      {location === "food" && <FaBowlFood size="60"/>}
+      {location === "coffee" && <PiCoffeeBeanFill size="60"/>}
+      {location === "map" && <FaMapMarkedAlt size="60"/>}
       </SpinnerInner>
     </SpinnerContainer>
   );

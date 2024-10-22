@@ -15,6 +15,7 @@ import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage
 import { database, storage } from "../utils/firebase";
 import { resizeImage } from "../helpers/resizeImage";
 
+
 export async function getHills(userId) {
   try {
     const hillsCollection = collection(doc(database, "users", userId), "hills");
@@ -25,6 +26,7 @@ export async function getHills(userId) {
     throw new Error("Something went wrong while receiving the hills data: " + error.message);
   }
 }
+
 
 export async function getHill(userId, tag) {
   try {

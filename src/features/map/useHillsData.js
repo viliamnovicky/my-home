@@ -9,6 +9,7 @@ export function useHillsData(userId) {
   } = useQuery({
     queryKey: ["hills", userId],
     queryFn: () => getHills(userId),
+    staleTime: 60000, // optional: time data is considered fresh
   });
   return { isLoadingHills, hills, errorHills };
 }

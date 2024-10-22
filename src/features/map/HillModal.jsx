@@ -9,6 +9,7 @@ import Button, { Buttons, ShowImageButton } from "../../ui/Button";
 import { formatTimestampToDate } from "../../helpers/convertDateToTimestamp";
 import AddVisitForm from "./AddVisitForm";
 import { useState } from "react";
+import ModalCarousel from "../../ui/ModalCarousel";
 
 
 const StyledHillModal = styled.div`
@@ -107,8 +108,31 @@ function HillModal() {
           </Buttons>}
         </Paragraphs>
       </InfoCont>
+      <ModalCarousel>
+      {hillData.visits &&
+          hillData.visits.map((visit) => (
+            <SlideImage key={visit.image + "-cont"}>
+              <Image src={visit.image} key={visit.image} alt={visit.image} />
+              <ShowImageButton color="show_image">show</ShowImageButton>
+              <SlideButtons key={visit.image + "buttons"}>
+                <Button
+                  size="small"
+                  color="decline"
+                  key={visit.image + "delete"}
+                  id={visit.image + "-delete"}
+                >
+                  delete visit
+                </Button>
+                <Button size="small" color="map" key={visit.image + "edit"} id={visit.image}>
+                  edit visit
+                </Button>
+              </SlideButtons>
+              <SlideImageHeading>{formatTimestampToDate(visit.date)}</SlideImageHeading>
+            </SlideImage>
+          ))}
+      </ModalCarousel>
 
-      <SlideImagesCont>
+      {/* <SlideImagesCont>
         {hillData.visits &&
           hillData.visits.map((visit) => (
             <SlideImage key={visit.image + "-cont"}>
@@ -130,7 +154,7 @@ function HillModal() {
               <SlideImageHeading>{formatTimestampToDate(visit.date)}</SlideImageHeading>
             </SlideImage>
           ))}
-      </SlideImagesCont>
+      </SlideImagesCont> */}
     </StyledHillModal>
   );
 }
