@@ -1,10 +1,10 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { H1, H5, Paragraph } from "../../ui/Heading";
 import { useGetHillData } from "./useHillsData";
 import { useLocation } from "react-router";
 import Spinner from "../../ui/Spinner";
 import { format } from "date-fns";
-import { SlideImage, SlideImageHeading, SlideImagesCont, Image, SlideButtons } from "../../ui/Images";
+import { SlideImage, SlideImageHeading, Image, SlideButtons } from "../../ui/Images";
 import Button, { Buttons, ShowImageButton } from "../../ui/Button";
 import { formatTimestampToDate } from "../../helpers/convertDateToTimestamp";
 import AddVisitForm from "./AddVisitForm";
@@ -13,20 +13,25 @@ import ModalCarousel from "../../ui/ModalCarousel";
 
 
 const StyledHillModal = styled.div`
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   width: 100%;
   height: 100%;
 
+  @media (max-width: 1900px) {
+    
+    overflow-y: scroll;
+  }
   @media (max-width: 1365px) {
     flex-direction: column;
+    
   }
 `;
 
 const InfoCont = styled.div`
   display: flex;
   gap: 1rem;
-  padding: 2rem;
+  padding-bottom: 2rem;
   transition: all, 0.2s;
   position: relative;
   height: 40rem;
@@ -83,12 +88,12 @@ function HillModal() {
         <Image src={hillData.image ? hillData.image : ""} />
         {isOpenVisitForm && <AddVisitForm onClose={setIsOpenVisitForm}></AddVisitForm>}
         <Paragraphs>
-          <H5>{hillData.description ? hillData.description[0] : "Another point on the map"}</H5>
+          <H5 padding="medium">{hillData.description ? hillData.description[0] : "Another point on the map"}</H5>
           <Paragraph color="light">
             logged visits:{" "}
             <span>
-              {hillData.visits ? hillData.visits.length : "1"}{" "}
-              {hillData?.visits?.length === 1 ? "time" : !hillData.length ? "time" : "times"}
+              {hillData?.visits ? hillData.visits.length : "1"}{" "}
+              {hillData?.visits?.length <= 1 ? "time" : "times"}
             </span>
           </Paragraph>
           <Paragraph color="dark">
@@ -114,7 +119,7 @@ function HillModal() {
             <SlideImage key={visit.image + "-cont"}>
               <Image src={visit.image} key={visit.image} alt={visit.image} />
               <ShowImageButton color="show_image">show</ShowImageButton>
-              <SlideButtons key={visit.image + "buttons"}>
+              {/* <SlideButtons key={visit.image + "buttons"}>
                 <Button
                   size="small"
                   color="decline"
@@ -126,7 +131,7 @@ function HillModal() {
                 <Button size="small" color="map" key={visit.image + "edit"} id={visit.image}>
                   edit visit
                 </Button>
-              </SlideButtons>
+              </SlideButtons> */}
               <SlideImageHeading>{formatTimestampToDate(visit.date)}</SlideImageHeading>
             </SlideImage>
           ))}

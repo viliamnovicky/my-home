@@ -40,8 +40,8 @@ export const SlideImage = styled.div`
   margin-right: 2rem;
 
   @media (max-width: 1365px) {
-    width: 96vw !important;
-    height: 64vw;
+    width: calc(100% - 2rem);
+    height: auto;
     margin: auto;
     margin-bottom: 2rem;
   }

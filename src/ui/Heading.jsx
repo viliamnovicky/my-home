@@ -9,20 +9,30 @@ const colors = {
     `,
   };
 
+const paddings = {
+  small: css`
+  padding: 1rem;
+  `,
+  medium: css`
+  padding: 2rem;
+  `,
+  large: css`
+  padding: 4rem;
+  `,
+  }
+
 export const H1 = styled.h1`
     font-size: 6rem;
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
     letter-spacing: .5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 2rem;
+    padding: 0;
+    margin: 0 auto;
+    ${(props) => paddings[props.padding]}
 
     @media (max-width: 1365px) {
     font-size: 3rem;
-    padding: 2rem 2rem;
   }
 
     span{
@@ -44,12 +54,11 @@ export const H3 = styled.h3`
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
-    padding: 1rem 0;
     letter-spacing: .5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 2rem;
+    ${(props) => paddings[props.padding]}
 `
 
 export const H5 = styled.h5`
@@ -61,7 +70,7 @@ export const H5 = styled.h5`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    ${(props) => paddings[props.padding]}
 `
 
 export const Paragraph = styled.p`
